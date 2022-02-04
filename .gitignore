@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+app.db
+destest.py
 
 # C extensions
 *.so
