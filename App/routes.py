@@ -5,6 +5,7 @@ from .models import Users, Candidacy
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
+from .notifs import notif_relance , math_relance
 
 @app.route('/')
 @app.route('/home')
@@ -109,6 +110,7 @@ def modify_candidacy():
     form = ModifyCandidacy()
     candidacy_id = request.args.get('id')
     candidacy = Candidacy.query.filter_by(id = candidacy_id).first()
+    
 
     if form.validate_on_submit():
         
@@ -117,6 +119,8 @@ def modify_candidacy():
             candidacy.contact_email = form.contact_email.data
             candidacy.contact_mobilephone = form.contact_mobilephone.data
             candidacy.status = form.status.data
+            candidacy.relance = form.relance.data
+            candidacy.date = form.modif_date.data
             db.session.commit()
 
             flash(f"La candidature a bien été modifié",category="success")
@@ -133,3 +137,17 @@ def delete_candidacy():
     Candidacy.query.filter_by(id=candidacy_id).first().delete_from_db()
     flash("Candidature supprimé avec succés",category="success")
     return redirect(url_for('board_page'))
+
+@app.route('/relance') 
+def notification():
+    usercandidacy_attributs = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Première candidature', 'A été relancé', 'A relancer dès le']
+
+    notif_relance()
+    test = Candidacy.find_by_user_id(current_user.id)
+    num_relance = 0 
+    for i in test :
+        if i['relance'] == False :
+            if i['status'] == 'En cours': 
+                num_relance += 1
+    
+    return render_template('relance.html', title = usercandidacy_attributs, user_candidacy=Candidacy.find_by_user_id(current_user.id), num_relance=num_relance)

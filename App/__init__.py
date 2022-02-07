@@ -1,6 +1,7 @@
 from flask import Flask,render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from .notifs import math_relance
 
 app = Flask(__name__)
 
@@ -12,5 +13,7 @@ login_manager.login_message_category = "info"
 
 from App import routes
 from App import models
+
+app.jinja_env.globals.update(math_relance=math_relance)
 
 #models.init_db()
