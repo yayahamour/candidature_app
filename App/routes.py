@@ -111,8 +111,8 @@ def modify_candidacy():
     candidacy_id = request.args.get('id')
     candidacy = Candidacy.query.filter_by(id = candidacy_id).first()
     
-
-    if form.validate_on_submit():
+    
+        if form.validate_on_submit():
         
         if candidacy:
             candidacy.contact_full_name = form.contact_full_name.data
@@ -142,12 +142,16 @@ def delete_candidacy():
 def notification():
     usercandidacy_attributs = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Première candidature', 'A été relancé', 'A relancer dès le']
 
-    notif_relance()
+    
+
     test = Candidacy.find_by_user_id(current_user.id)
-    num_relance = 0 
+    alertes = 0 
     for i in test :
         if i['relance'] == False :
             if i['status'] == 'En cours': 
-                num_relance += 1
+                alertes += 1
+    notif_relance(alertes)
     
-    return render_template('relance.html', title = usercandidacy_attributs, user_candidacy=Candidacy.find_by_user_id(current_user.id), num_relance=num_relance)
+    app.jinja_env.globals.update(math_relance=math_relance, alertes = alertes)
+    
+    return render_template('relance.html', title = usercandidacy_attributs, user_candidacy=Candidacy.find_by_user_id(current_user.id), num_relance=alertes)
