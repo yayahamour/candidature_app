@@ -111,8 +111,7 @@ def modify_candidacy():
     candidacy_id = request.args.get('id')
     candidacy = Candidacy.query.filter_by(id = candidacy_id).first()
     
-    
-        if form.validate_on_submit():
+    if form.validate_on_submit():
         
         if candidacy:
             candidacy.contact_full_name = form.contact_full_name.data
