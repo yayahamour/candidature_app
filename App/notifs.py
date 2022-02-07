@@ -1,6 +1,7 @@
 from gi.repository import Notify
 from .models import Candidacy
 from App import app
+from flask_login import current_user
 
 def notif(title, message, icone):
     Notify.init('Suivit-candidature')
@@ -14,7 +15,7 @@ def notif_relance(alerte):
     icone = 'dialog-information'
     message = f" Tu as {alerte} candidature(s) à relancer"
     if alerte == 0 :
-        return notif(titre,icone, "Aucune candidature à relancer")
+        return notif(titre, "Aucune candidature à relancer", icone)
     else:
         return notif(titre, message, icone)
     
@@ -49,3 +50,13 @@ def math_relance(date):
     result = str(annee) + "-" + str(mois) + "-" + str(math_date)
     
     return result
+
+def count_alertes():
+    
+    test = Candidacy.find_by_user_id(current_user.id)
+    alertes = 0 
+    for i in test :
+        if i['relance'] == False :
+            if i['status'] == 'En cours': 
+                alertes += 1
+    return alertes

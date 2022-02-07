@@ -5,7 +5,7 @@ from .models import Users, Candidacy
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
-from .notifs import notif_relance , math_relance
+from .notifs import notif_relance , math_relance, count_alertes
 
 @app.route('/')
 @app.route('/home')
@@ -143,14 +143,8 @@ def notification():
 
     
 
-    test = Candidacy.find_by_user_id(current_user.id)
-    alertes = 0 
-    for i in test :
-        if i['relance'] == False :
-            if i['status'] == 'En cours': 
-                alertes += 1
-    notif_relance(alertes)
+    notif_relance(count_alertes())
     
-    app.jinja_env.globals.update(math_relance=math_relance, alertes = alertes)
+    app.jinja_env.globals.update(math_relance=math_relance, alertes = count_alertes())
     
-    return render_template('relance.html', title = usercandidacy_attributs, user_candidacy=Candidacy.find_by_user_id(current_user.id), num_relance=alertes)
+    return render_template('relance.html', title = usercandidacy_attributs, user_candidacy=Candidacy.find_by_user_id(current_user.id))
