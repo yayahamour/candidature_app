@@ -5,7 +5,7 @@ from .models import Users, Candidacy
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
-from .notifs import notif_relance , math_relance, count_alertes
+from .tools import notif_relance , math_relance, count_alertes
 
 @app.route('/')
 @app.route('/home')
@@ -48,7 +48,7 @@ def board_page():
     """
     admin_candidacy_attributs = ["user_fisrt_name",'entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'date','status']
     usercandidacy_attributs = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'date','status']
-
+    app.jinja_env.globals.update(alertes = count_alertes())
 
     if (current_user.is_admin == True):  
         return render_template('board.html', lenght = len(admin_candidacy_attributs), title = admin_candidacy_attributs, user_candidacy=Candidacy.get_all_in_list_with_user_name())
@@ -139,12 +139,12 @@ def delete_candidacy():
 
 @app.route('/relance') 
 def notification():
-    usercandidacy_attributs = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Première candidature', 'A été relancé', 'A relancer dès le']
-
+    header = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Dernière relance', 'A relancer dès le', 'A été relancé']
+    body = ['entreprise', 'contact_full_name', 'contact_email', 'contact_mobilephone' , 'date', 'relance' ]
     
 
     notif_relance(count_alertes())
     
-    app.jinja_env.globals.update(math_relance=math_relance, alertes = count_alertes())
+    app.jinja_env.globals.update(alertes = count_alertes())
     
-    return render_template('relance.html', title = usercandidacy_attributs, user_candidacy=Candidacy.find_by_user_id(current_user.id))
+    return render_template('relance.html', title = header, user_candidacy=Candidacy.find_by_user_id(current_user.id), math_relance=math_relance, body = body)

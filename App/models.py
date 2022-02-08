@@ -114,6 +114,7 @@ class Candidacy(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+        
 
 # Function to create db and populate it
 def init_db():

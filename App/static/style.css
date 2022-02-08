@@ -81,4 +81,11 @@ h1{
     color: #fff;  
   }
 
-  
+#notif {
+  background-color : rgb(75, 75, 75);
+  height: 23px;
+  width: 23px;
+  text-align: center;
+  border-radius: 3px;
+  color: red ;
+}
