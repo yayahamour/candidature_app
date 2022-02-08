@@ -12,19 +12,41 @@
             });
         }
     </script>
+      <script>
+        function tp(json) {
+          $.getJSON({
+                  url: "/scallback", data: { 'data': selection }, success: function (result){
+                  var t = document.createElement('table');
+                    for (var i in data) {
+                        var tr = t.insertRow();
+
+                        for (var j in data[i]) {
+                            var td = tr.insertCell();
+                            td.appendChild(document.createTextNode(data[i][j]));
+                        }
+}
+
+element.appendChild(t);
+}
+              });
+          }
+      
+  </script>
     {% endblock %}
 
 {% block graph %}
-<select name="promo" id="promo" onchange="cb(this.options[this.selectedIndex].text)">
-  <option value="all" selected>all</option>
+<select onchange="cb(this.options[this.selectedIndex].text),tp(this.options[this.selectedIndex].text)">
+  <option  selected>all</option>
   {% for choix in list_option%}
-    <option value={{choix}}>{{choix}}</option>
+    <option>{{choix}}</option>
   {% endfor %}
   </select>
 <div id="chart" class="chart"></div>
+<div id="chart1" class="chart1"></div>
 <div id="png_chart"></div>
 <script>
   cb("all");
+  tp("all");
 </script>
 {% endblock %}
 

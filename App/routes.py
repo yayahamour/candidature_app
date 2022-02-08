@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, flash, request
-from sqlalchemy import false
+from sqlalchemy import JSON, false
 from App import db, app
 from datetime import date
 from .models import Users, Candidacy
@@ -144,6 +144,10 @@ def delete_candidacy():
 @app.route('/callback', methods=['POST', 'GET'])
 def cb():
     return gm(request.args.get('data'))
+
+@app.route('/scallback', methods=['POST', 'GET'])
+def tp():
+    return list_fonction(request.args.get('data'))
    
 @app.route('/stats')
 def index():
@@ -156,9 +160,11 @@ def index():
     form.promo = option_select
     return render_template('graph.html',form=form, list_option=option_select)
 
-
+def list_fonction(vue = "all"):
+    return json.dumps(["Ford", "BMW", "Fiat"])
+    
 def gm(vue = "all"):
-    print(vue)
+   
     if(vue == "all"):
         list_learner = Users.get_all_learner()
     else:
