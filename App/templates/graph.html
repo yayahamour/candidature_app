@@ -1,6 +1,6 @@
-<!doctype html>
-<html>
-<head>
+{% extends 'base.html' %}
+
+{% block script %}
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -12,24 +12,21 @@
             });
         }
     </script>
-</head>
+    {% endblock %}
 
-<body style="font-family:arial, sans-serif">
-    <select name="promo" id="promo" onchange="cb(this.options[this.selectedIndex].text)">
-      <option value="all" selected>all</option>
-      {% for choix in list_option%}
-        <option value={{choix}}>{{choix}}</option>
-      {% endfor %}
-      </select>
-  </form>
-    <div id="chart" class="chart"></div>
-    <div id="png_chart"></div>
-</body>
-
+{% block graph %}
+<select name="promo" id="promo" onchange="cb(this.options[this.selectedIndex].text)">
+  <option value="all" selected>all</option>
+  {% for choix in list_option%}
+    <option value={{choix}}>{{choix}}</option>
+  {% endfor %}
+  </select>
+<div id="chart" class="chart"></div>
+<div id="png_chart"></div>
 <script>
-    cb("all");
+  cb("all");
 </script>
-</html>
+{% endblock %}
 
 
 
