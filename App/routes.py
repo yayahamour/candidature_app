@@ -1,11 +1,12 @@
 from flask import render_template, redirect, url_for, flash, request
-from App import db, app
+from App import db, app, mail
 from datetime import date
 from .models import Users, Candidacy
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
-from .tools import notif_relance , math_relance, count_alertes
+from .tools import notif_relance , math_relance, count_alertes, mail_relance
+
 
 @app.route('/')
 @app.route('/home')
@@ -142,9 +143,12 @@ def notification():
     header = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Dernière relance', 'A relancer dès le', 'A été relancé']
     body = ['entreprise', 'contact_full_name', 'contact_email', 'contact_mobilephone' , 'date', 'relance' ]
     
-
+    adresse = current_user.email_address
     notif_relance(count_alertes())
+    if count_alertes() > 0:
+        mail_relance(adresse)
     
     app.jinja_env.globals.update(alertes = count_alertes())
     
     return render_template('relance.html', title = header, user_candidacy=Candidacy.find_by_user_id(current_user.id), math_relance=math_relance, body = body)
+

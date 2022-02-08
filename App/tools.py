@@ -2,6 +2,8 @@ from gi.repository import Notify
 from .models import Candidacy
 from flask_login import current_user
 import datetime 
+from App import app, mail 
+from flask_mail import Mail , Message
 
 
 
@@ -74,3 +76,11 @@ def math_relance(date):
     
     return result
 
+
+def mail_relance(adresse):
+    msg = Message(subject="Relance suivit candidature Simplon", 
+                  body="Bonjour Apprenant, \nJe suis le bot créer par tes confrères et je suis là pour te rappeler que tu as des alertes de candidatures à relancer. \nVa vite faire un tour sur http://suivicandidature.herokuapp.com/",
+                  sender=app.config.get("MAIL_USERNAME"),
+                  recipients=[adresse])
+    mail.send(msg)
+    
