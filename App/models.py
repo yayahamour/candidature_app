@@ -31,6 +31,7 @@ class Users(db.Model,UserMixin):
     email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=200), nullable=False)
     telephone_number = db.Column(db.String(length=10), nullable=True)
+    promo = db.Column(db.String(length=30), nullable=True)
     is_admin = db.Column(db.Boolean(), nullable=False, default=False)
 
     def __repr__(self):
@@ -42,6 +43,7 @@ class Users(db.Model,UserMixin):
             'first_name': self.first_name,
             'email_address': self.email_address,
             'telephone_number': self.telephone_number,
+            'promo' : self.promo,
             'is_admin': self.is_admin
             }
 
@@ -49,7 +51,16 @@ class Users(db.Model,UserMixin):
     def find_by_title(cls, user_id):
         return cls.query.filter_by(user_id=user_id).first()
 
-
+    @classmethod
+    def get_all_learner(cls):
+        return cls.query.filter_by(is_admin = False).with_entities(Users.id, Users.promo).all()
+    
+    @classmethod
+    def find_by_promo(cls, promo):
+        return cls.query.filter_by(promo = promo).with_entities(Users.id, Users.promo).all()
+    
+    
+    
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
@@ -104,6 +115,8 @@ class Candidacy(db.Model):
         for candidacy in cls.query.join(Users).with_entities(Users.first_name,cls.entreprise, cls.contact_full_name, cls.contact_email, cls.contact_mobilephone,cls.date,cls.status).all():
             candidacy_list.append(candidacy)
         return candidacy_list
+    
+    
 
     def save_to_db(self):
         db.session.add(self)
@@ -119,9 +132,7 @@ def init_db():
     db.create_all()
     #db.session.add( )
     Users(last_name="ben", first_name= "charles", email_address= "cb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=True).save_to_db() 
-    Users(last_name="beniac", first_name= "cha", email_address= "bb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=False).save_to_db()
-    Candidacy(user_id = 1, entreprise = "facebook", contact_full_name = "mz", contact_email="mz@facebook.fb").save_to_db()
-    Candidacy(user_id = 1, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com").save_to_db()
+    Users(last_name="beniac", first_name= "cha", email_address= "bb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=False, promo = "Dev Ia").save_to_db()
 
     
     # Insert all users from  "static/liste_apprenants.csv"
@@ -130,14 +141,32 @@ def init_db():
         data = list(reader)
 
    
-    for i in data:
+    for i in data[6:]:
         user = {
                 'email_address' : i[0],
                 'first_name' : i[1],
                 'last_name' : i[2],
                 'password_hash' : generate_password_hash(i[3], method='sha256'),
+                'promo' : "Dev Ia",
                 'is_admin' : True if i[4] == "TRUE" else False
             }
         Users(**user).save_to_db()
     
+    for i in data[:6]:
+        user = {
+                'email_address' : i[0],
+                'first_name' : i[1],
+                'last_name' : i[2],
+                'password_hash' : generate_password_hash(i[3], method='sha256'),
+                'promo' : "Dev java",
+                'is_admin' : True if i[4] == "TRUE" else False
+            }
+        Users(**user).save_to_db()
+    
+    Candidacy(user_id = 2, entreprise = "facebook", contact_full_name = "mz", contact_email="mz@facebook.fb").save_to_db()
+    Candidacy(user_id = 2, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
+    Candidacy(user_id = 3, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
+    Candidacy(user_id = 4, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
+    Candidacy(user_id = 5, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
+    Candidacy(user_id = 6, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()    
     lg.warning('Database initialized!')

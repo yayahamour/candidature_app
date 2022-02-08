@@ -1,10 +1,16 @@
 from flask import render_template, redirect, url_for, flash, request
+from sqlalchemy import false
 from App import db, app
 from datetime import date
 from .models import Users, Candidacy
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
+import pandas as pd
+import json
+import plotly
+import plotly.express as px
+import numpy as np
 
 @app.route('/')
 @app.route('/home')
@@ -133,3 +139,44 @@ def delete_candidacy():
     Candidacy.query.filter_by(id=candidacy_id).first().delete_from_db()
     flash("Candidature supprimé avec succés",category="success")
     return redirect(url_for('board_page'))
+
+
+@app.route('/callback', methods=['POST', 'GET'])
+def cb():
+    return gm(request.args.get('data'))
+   
+@app.route('/stats')
+def index():
+    list_learner = Users.get_all_learner()
+    option_select = []
+    for learner in list_learner:
+        if learner[1] not in option_select:
+            option_select.append(learner[1])
+    return render_template('graph.html',list_option = option_select)
+
+
+def gm(vue):
+    if(vue == "all"):
+        list_learner = Users.get_all_learner()
+    else:
+        list_learner = Users.find_by_promo(vue)
+    df = pd.DataFrame()
+    list_apprenticeship = []
+    list_status = []
+    for learner in list_learner:
+        list_candidacy = Candidacy.find_by_user_id(learner[0])
+        apprenticeship = False
+        status = "En cours"
+        for candidacy in list_candidacy :
+            if candidacy["status"] == "Validée":
+                apprenticeship = True
+                status = "Validée"
+        list_status.append(status)
+        list_apprenticeship.append(apprenticeship)
+    df["apprenticeship"] = list_apprenticeship
+    df["status"] = list_status
+    df = df.groupby("status").count().reset_index()
+    
+    fig = px.pie(df, values='apprenticeship', names ='status', title='Pourcentage alternance')
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON

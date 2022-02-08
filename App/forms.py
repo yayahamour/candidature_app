@@ -37,3 +37,4 @@ class ModifyCandidacy(FlaskForm):
     status = StringField(label='Status', validators=[DataRequired()])
 
     submit = SubmitField(label="Valider")
+    
