@@ -3,7 +3,7 @@ from sqlalchemy import false
 from App import db, app
 from datetime import date
 from .models import Users, Candidacy
-from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile
+from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile, Stats
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 import pandas as pd
@@ -147,15 +147,18 @@ def cb():
    
 @app.route('/stats')
 def index():
+    form = Stats()
     list_learner = Users.get_all_learner()
     option_select = []
     for learner in list_learner:
         if learner[1] not in option_select:
             option_select.append(learner[1])
-    return render_template('graph.html',list_option = option_select)
+    form.promo = option_select
+    return render_template('graph.html',form=form, list_option=option_select)
 
 
-def gm(vue):
+def gm(vue = "all"):
+    print(vue)
     if(vue == "all"):
         list_learner = Users.get_all_learner()
     else:
