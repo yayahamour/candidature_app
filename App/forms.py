@@ -47,9 +47,9 @@ class ModifyCandidacy(FlaskForm):
     contact_email = StringField(label='Email du contact', validators=[DataRequired()])
     contact_mobilephone = StringField(label='Téléphone du contact')
     status = SelectField(label='Statut', validators=[DataRequired()], choices = ['En cours', 'A été relancée',"En attente d'entretien", "Acceptée", "Refusée"])
-
+    modif_date = DateField('Date', format='%Y-%m-%d')
     submit = SubmitField(label="Valider")
-
+    
 
 class AddOffer(FlaskForm):
     """[Form to add offer]
