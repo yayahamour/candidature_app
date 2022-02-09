@@ -12,7 +12,7 @@ import json
 import plotly
 import plotly.express as px
 import numpy as np
-from .tools import notif_relance , math_relance, count_alertes, tchek
+from .tools import math_relance, count_alertes, tchek
 
 
 @app.route('/')
@@ -226,7 +226,6 @@ def notification():
     
     adresse = current_user.email_address
     
-    notif_relance(count_alertes())
     if count_alertes() > 0:
         tchek.mail_relance(adresse)
             
