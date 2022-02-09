@@ -21,7 +21,6 @@ python-dateutil
 pytz
 scipy
 six
-SQLAlchemy
 statsmodels
 tenacity
 Werkzeug
