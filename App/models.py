@@ -49,7 +49,7 @@ class Users(db.Model,UserMixin):
 
     @classmethod
     def find_by_title(cls, user_id):
-        return cls.query.filter_by(user_id=user_id).first()
+        return cls.query.filter_by(id=user_id).first()
 
     @classmethod
     def get_all_learner(cls):

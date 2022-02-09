@@ -1,3 +1,4 @@
+from ast import Try
 from flask import render_template, redirect, url_for, flash, request
 from sqlalchemy import JSON, false
 from App import db, app
@@ -150,7 +151,8 @@ def tp():
     return list_fonction(request.args.get('data'))
    
 @app.route('/stats')
-def index():
+@login_required
+def stats():
     form = Stats()
     list_learner = Users.get_all_learner()
     option_select = []
@@ -161,7 +163,31 @@ def index():
     return render_template('graph.html',form=form, list_option=option_select)
 
 def list_fonction(vue = "all"):
-    return json.dumps(["Ford", "BMW", "Fiat"])
+    print(vue)
+    if(vue == "all"):
+        list_learner = Users.get_all_learner()
+    else:
+        list_learner = Users.find_by_promo(vue)
+    list_no_apprenticeship = str()
+    list_have_apprenticeship = str()
+    for learner in list_learner:
+        list_candidacy = Candidacy.find_by_user_id(learner[0])
+        apprenticeship = False
+        for candidacy in list_candidacy :
+            if candidacy["status"] == "Validée":
+                apprenticeship = True
+        if (apprenticeship) == True:
+            if (len(list_have_apprenticeship) == 0):
+                list_have_apprenticeship += str((Users.find_by_title(learner[0])))
+            else:
+                list_have_apprenticeship += ";" + str((Users.find_by_title(learner[0])))
+            
+        else:
+            if (len(list_no_apprenticeship) == 0):
+                list_no_apprenticeship += str((Users.find_by_title(learner[0])))
+            else:
+                list_no_apprenticeship += ";" + str((Users.find_by_title(learner[0])))
+    return(json.dumps(list_have_apprenticeship + "|" + list_no_apprenticeship))
     
 def gm(vue = "all"):
    
