@@ -80,16 +80,7 @@
           Candidatures
           </a>
         </li>
-        {% if current_user.is_admin == False %}
-          <li class="nav-item ml-3">
-            <div class="display flex row">
-              <a class="nav-link" href="{{ url_for('notification') }}">Relance  </a>
-              <div id="notif" >
-                {{alertes}} 
-              </div>
-            </div>
-          </li>
-        {% endif %}
+
         {% else %}
         <li class="nav-item ml-3">
           <a class="nav-link" href="{{ url_for('login_page') }}">Candidatures</a>
@@ -113,14 +104,18 @@
         {% if current_user.is_admin == False %}
           {% if current_user.is_authenticated %}
           <li class="nav-item ml-3">
-            <a class="nav-link" href="{{ url_for('relaunch_page') }}">
+            <a class="nav-link" href="{{ url_for('relance_page') }}">
               <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                 <path fill="currentColor"
                   d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07a7.001 7.001 0 0 1 3.274 12.474l.601.602a.5.5 0 0 1-.707.708l-.746-.746A6.97 6.97 0 0 1 8 16a6.97 6.97 0 0 1-3.422-.892l-.746.746a.5.5 0 0 1-.707-.708l.602-.602A7.001 7.001 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5zm2.5 5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5zM.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.035 8.035 0 0 0 .86 5.387zM11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.035 8.035 0 0 0-3.527-3.527z" />
               </svg>
             Relance
             </a>
+            
           </li>
+          <div id="notif" >
+            {{alertes}} 
+          </div>
           {% else %}
           <li class="nav-item ml-3">
             <a class="nav-link" href="{{ url_for('login_page') }}">Relance</a>
@@ -161,6 +156,15 @@
         {% if current_user.is_authenticated %}
         <li class="nav-item ml-3">
           <a class="nav-link" href="{{ url_for('visualisation_page') }}">
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+              <path fill="currentColor"
+              d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z"/>
+            </svg>
+          Visualisations
+          </a>
+        </li>
+        <li class="nav-item ml-3">
+          <a class="nav-link" href="{{ url_for('stats') }}">
             <svg style="width:24px;height:24px" viewBox="0 0 24 24">
               <path fill="currentColor"
               d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z"/>

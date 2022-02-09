@@ -359,7 +359,7 @@ def gm(vue = "all"):
 
 
 @app.route('/relance') 
-def notification():
+def relance_page():
     header = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Dernière relance', 'A relancer dès le', 'A été relancé']
     body = ['entreprise', 'contact_full_name', 'contact_email', 'contact_mobilephone' , 'date', 'relance' ]
     

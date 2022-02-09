@@ -1,3 +1,12 @@
+#notif {
+  background-color : rgb(75, 75, 75);
+  height: 23px;
+  width: 23px;
+  text-align: center;
+  border-radius: 3px;
+  color: red ;
+}
+
 .responsive {
   width: 35%;
   height: auto;
@@ -101,18 +110,4 @@ a, a:hover{
 .navbar {
   padding: 3px 5px 3px 5px;
   border : 10px;
-    font-size: 30px;
-    color: #fff;
-    text-transform: uppercase;
-    font-weight: 300;
-    text-align: center;
-    margin-bottom: 15px;}
-
-#notif {
-  background-color : rgb(75, 75, 75);
-  height: 23px;
-  width: 23px;
-  text-align: center;
-  border-radius: 3px;
-  color: red ;
 }
