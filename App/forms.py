@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField,EmailField,SubmitField,StringField, SelectField
+from wtforms import PasswordField,EmailField,SubmitField,StringField, BooleanField, StringField, SelectField
 from wtforms.validators import Length,DataRequired,Email,EqualTo,ValidationError
+from wtforms.fields import DateField, SelectField
 from .models import Users
 
 class Login(FlaskForm):
@@ -39,3 +40,7 @@ class ModifyCandidacy(FlaskForm):
 
 class Stats(FlaskForm):
     promo =  SelectField('promo', choices=[])
+    status = SelectField(label='Status', validators=[DataRequired()], choices=["En cours", "Accepté", "Refusé"])
+    relance = BooleanField('A été relancé ? ')
+    modif_date = DateField('Date', format='%Y-%m-%d')
+    submit = SubmitField(label="Valider")

@@ -12,6 +12,8 @@ import json
 import plotly
 import plotly.express as px
 import numpy as np
+from .tools import notif_relance , math_relance, count_alertes, tchek
+
 
 @app.route('/')
 @app.route('/home')
@@ -54,7 +56,7 @@ def board_page():
     """
     admin_candidacy_attributs = ["user_fisrt_name",'entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'date','status']
     usercandidacy_attributs = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'date','status']
-
+    app.jinja_env.globals.update(alertes = count_alertes())
 
     if (current_user.is_admin == True):  
         return render_template('board.html', lenght = len(admin_candidacy_attributs), title = admin_candidacy_attributs, user_candidacy=Candidacy.get_all_in_list_with_user_name())
@@ -116,7 +118,7 @@ def modify_candidacy():
     form = ModifyCandidacy()
     candidacy_id = request.args.get('id')
     candidacy = Candidacy.query.filter_by(id = candidacy_id).first()
-
+    
     if form.validate_on_submit():
         
         if candidacy:
@@ -124,6 +126,8 @@ def modify_candidacy():
             candidacy.contact_email = form.contact_email.data
             candidacy.contact_mobilephone = form.contact_mobilephone.data
             candidacy.status = form.status.data
+            candidacy.relance = form.relance.data
+            candidacy.date = form.modif_date.data
             db.session.commit()
 
             flash(f"La candidature a bien été modifié",category="success")
@@ -215,3 +219,18 @@ def gm(vue = "all"):
     fig = px.pie(df, values='apprenticeship', names ='status', title='Pourcentage alternance')
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+@app.route('/relance') 
+def notification():
+    header = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Dernière relance', 'A relancer dès le', 'A été relancé']
+    body = ['entreprise', 'contact_full_name', 'contact_email', 'contact_mobilephone' , 'date', 'relance' ]
+    
+    adresse = current_user.email_address
+    
+    notif_relance(count_alertes())
+    if count_alertes() > 0:
+        tchek.mail_relance(adresse)
+            
+    app.jinja_env.globals.update(alertes = count_alertes())
+    
+    return render_template('relance.html', title = header, user_candidacy=Candidacy.find_by_user_id(current_user.id), math_relance=math_relance, body = body)
+
