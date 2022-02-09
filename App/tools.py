@@ -7,11 +7,12 @@ from flask_mail import Mail , Message
 
 
 
-def diff_date(date_to_compare = "2022-01-15"):
-    date_today = str(datetime.date.today())
-    annee_1 = date_today[0:4]
-    mois_1 = date_today[5:7]
-    jours_1 = date_today[8:]
+def diff_date(date_to_compare ):
+    
+    date_now = str(datetime.date.today())
+    annee_1 = date_now[0:4]
+    mois_1 = date_now[5:7]
+    jours_1 = date_now[8:]
     
     annee_2 = date_to_compare[0:4]
     mois_2 = date_to_compare[5:7]
@@ -46,6 +47,30 @@ def notif_relance( alerte):
         notif.show()
 
 
+
+
+class tcheker:
+    def __init__(self,date_tchecker):
+        self.date_tchecker = [0]
+        
+    def mail_relance(self, adresse):
+        date_now = str(datetime.date.today())
+        jour = date_now[8:]
+        
+        if jour != self.date_tchecker[-1]:
+            
+            msg = Message(subject="Relance suivit candidature Simplon", 
+                        body="Bonjour Apprenant, \nJe suis le bot créer par tes confrères et je suis là pour te rappeler que tu as des alertes de candidatures à relancer. \nVa vite faire un tour sur http://suivicandidature.herokuapp.com/",
+                        sender=app.config.get("MAIL_USERNAME"),
+                        recipients=[adresse])
+            mail.send(msg)
+            del self.date_tchecker[-1]
+            self.date_tchecker.append(jour)
+
+    
+tchek = tcheker([0])
+    
+
 def math_relance(date):
     annee = int(date.replace('-','')[0:4])
     mois = int(date.replace('-','')[4:6])
@@ -54,33 +79,27 @@ def math_relance(date):
     
     max_current_mois = max_mois[mois]
     
-    math_date = jours + 7
+    math_jour = jours + 7
     
-    # Compare if its the end of current mounth and year is crossed or not
-    if math_date > max_current_mois :
+    # Compare if 7 days more reached the end of mounth  
+    if math_jour > max_current_mois :
         if mois == 12 :
             annee += 1 
             mois = 1 
-            math_date -= max_current_mois
+            math_jour -= max_current_mois
         else:
             mois += 1 
-            math_date -= max_current_mois
+            math_jour -= max_current_mois
         
-    # For the print format
+    # For the correct format print
     if mois < 10 :
         mois = "0" + str(mois)
-    if math_date < 10 :
-        math_date = "0" + str(math_date)
+    if math_jour < 10 :
+        math_jour = "0" + str(math_jour)
         
-    result = str(annee) + "-" + str(mois) + "-" + str(math_date)
-    
+    result = str(annee) + "-" + str(mois) + "-" + str(math_jour)
     return result
 
 
-def mail_relance(adresse):
-    msg = Message(subject="Relance suivit candidature Simplon", 
-                  body="Bonjour Apprenant, \nJe suis le bot créer par tes confrères et je suis là pour te rappeler que tu as des alertes de candidatures à relancer. \nVa vite faire un tour sur http://suivicandidature.herokuapp.com/",
-                  sender=app.config.get("MAIL_USERNAME"),
-                  recipients=[adresse])
-    mail.send(msg)
+
     
