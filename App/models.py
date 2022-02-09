@@ -1,10 +1,12 @@
-from App import db,login_manager
+from App import db,login_manager, mail , app
 import datetime 
 from flask_login import UserMixin # allow to set variable is_active=True and to stay connected
 import logging as lg
 from werkzeug.security import generate_password_hash
 import csv
 from flask import jsonify
+from dataclasses import dataclass, field 
+from flask_mail import Mail , Message
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -17,6 +19,39 @@ def load_user(user_id):
         instance of users depending of his id
     """
     return Users.query.get(int(user_id))
+
+
+class Bot:
+
+    def __init__(self, date_tchecker=[1]):
+        self.date_tchecker = date_tchecker
+
+
+    def mail_relance(self, adresse):
+        
+        jour = str(datetime.date.today())[8:]
+        if str(self.date_tchecker[-1]) != jour:
+            msg = Message(subject="Relance suivit candidature Simplon", 
+                        body="Bonjour Apprenant, \nJe suis le bot créer par tes confrères et je suis là pour te rappeler que tu as des alertes de candidatures à relancer. \nVa vite faire un tour sur http://suivicandidature.herokuapp.com/",
+                        sender=app.config.get("MAIL_USERNAME"),
+                        recipients=[adresse])
+            try: 
+                #mail.send(msg)
+                print('jour : ', jour)
+                print('element liste all', self.date_tchecker )
+                print('dernier element de la liste', self.date_tchecker[-1])
+                print('-------------------   email envoyé! ------------------- \n')
+            except:
+                print('ERROR - Please tchek your email config')
+            del self.date_tchecker[-1]
+            self.date_tchecker.append(jour)
+        else:
+            print('Message Non envoyé')
+    
+    
+    
+bot = Bot()
+
 
 class Users(db.Model,UserMixin):
     """Create a table Users on the candidature database
@@ -32,6 +67,7 @@ class Users(db.Model,UserMixin):
     email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=200), nullable=False)
     telephone_number = db.Column(db.String(length=10), nullable=True)
+    promo = db.Column(db.String(length=30), nullable=True)
     is_admin = db.Column(db.Boolean(), nullable=False, default=False)
 
     def __repr__(self):
@@ -43,14 +79,24 @@ class Users(db.Model,UserMixin):
             'first_name': self.first_name,
             'email_address': self.email_address,
             'telephone_number': self.telephone_number,
+            'promo' : self.promo,
             'is_admin': self.is_admin
             }
 
     @classmethod
     def find_by_title(cls, user_id):
-        return cls.query.filter_by(user_id=user_id).first()
+        return cls.query.filter_by(id=user_id).first()
 
-
+    @classmethod
+    def get_all_learner(cls):
+        return cls.query.filter_by(is_admin = False).with_entities(Users.id, Users.promo).all()
+    
+    @classmethod
+    def find_by_promo(cls, promo):
+        return cls.query.filter_by(promo = promo).with_entities(Users.id, Users.promo).all()
+    
+    
+    
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
@@ -80,6 +126,7 @@ class Candidacy(db.Model):
     contact_mobilephone = db.Column(db.String(length=50), nullable=True)
     date = db.Column(db.String(), default=datetime.date.today())
     status = db.Column(db.String(), nullable=True, default="En cours")
+    relance = db.Column(db.Boolean,nullable=False, default=False)
 
     def __repr__(self):
         return f' Candidat id : {self.user_id}'
@@ -98,7 +145,8 @@ class Candidacy(db.Model):
             'contact_email': self.contact_email,
             'contact_mobilephone': self.contact_mobilephone,
             'date': self.date,
-            'status': self.status
+            'status': self.status,
+            'relance': self.relance
             }
 
 
@@ -115,6 +163,8 @@ class Candidacy(db.Model):
         for candidacy in cls.query.join(Users).with_entities(Users.first_name, cls.plateforme, cls.poste, cls.entreprise, cls.activite, cls.type, cls.lieu,  cls.contact_full_name, cls.contact_email, cls.contact_mobilephone,cls.date,cls.status).all():
             candidacy_list.append(candidacy)
         return candidacy_list
+    
+    
 
     def save_to_db(self):
         db.session.add(self)
@@ -123,6 +173,7 @@ class Candidacy(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+        
 
 class Offer(db.Model):
     """Create a table Offer on the candidature database
@@ -192,6 +243,11 @@ class Offer(db.Model):
 def init_db():
     db.drop_all()
     db.create_all()
+    #db.session.add( )
+    Users(last_name="ben", first_name= "charles", email_address= "cb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=True).save_to_db() 
+    Users(last_name="beniac", first_name= "cha", email_address= "bb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=False).save_to_db()
+    Candidacy(user_id = 2, entreprise = "facebook", contact_full_name = "mz", contact_email="mz@facebook.fb").save_to_db()
+    Candidacy(user_id = 2, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com").save_to_db()
 
     
     # Insert all users from  "static/liste_apprenants.csv"
@@ -200,14 +256,32 @@ def init_db():
         data = list(reader)
 
    
-    for i in data:
+    for i in data[6:]:
         user = {
                 'email_address' : i[0],
                 'first_name' : i[1],
                 'last_name' : i[2],
                 'password_hash' : generate_password_hash(i[3], method='sha256'),
+                'promo' : "Dev Ia",
                 'is_admin' : True if i[4] == "TRUE" else False
             }
         Users(**user).save_to_db()
     
+    for i in data[:6]:
+        user = {
+                'email_address' : i[0],
+                'first_name' : i[1],
+                'last_name' : i[2],
+                'password_hash' : generate_password_hash(i[3], method='sha256'),
+                'promo' : "Dev java",
+                'is_admin' : True if i[4] == "TRUE" else False
+            }
+        Users(**user).save_to_db()
+    
+    Candidacy(user_id = 2, entreprise = "facebook", contact_full_name = "mz", contact_email="mz@facebook.fb").save_to_db()
+    Candidacy(user_id = 2, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
+    Candidacy(user_id = 3, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
+    Candidacy(user_id = 4, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
+    Candidacy(user_id = 5, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
+    Candidacy(user_id = 6, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()    
     lg.warning('Database initialized!')

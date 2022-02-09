@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+  {% block script %}
+  {% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="../static/logo_simplon.png">
@@ -10,6 +12,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     crossorigin="anonymous" />
   <link rel="stylesheet" href="/static/style.css">
+  
   <title>
     {% block title %}
     {% endblock %}
@@ -77,6 +80,16 @@
           Candidatures
           </a>
         </li>
+        {% if current_user.is_admin == False %}
+          <li class="nav-item ml-3">
+            <div class="display flex row">
+              <a class="nav-link" href="{{ url_for('notification') }}">Relance  </a>
+              <div id="notif" >
+                {{alertes}} 
+              </div>
+            </div>
+          </li>
+        {% endif %}
         {% else %}
         <li class="nav-item ml-3">
           <a class="nav-link" href="{{ url_for('login_page') }}">Candidatures</a>
@@ -160,6 +173,18 @@
           <a class="nav-link" href="{{ url_for('login_page') }}">Visualisations</a>
         </li>
         {% endif %}
+
+        {% if current_user.is_admin %}
+          {% if current_user.is_authenticated %}
+          <li class="nav-item ml-3">
+            <a class="nav-link" href="{{ url_for('stats') }}">Stats</a>
+          </li>
+          {% else %}
+          <li class="nav-item ml-3">
+            <a class="nav-link" href="{{ url_for('stats') }}">Stats</a>
+          </li>
+          {% endif %}
+        {% endif %}
       </ul>
     </div>
       <div class="col-3 text-right">
@@ -198,17 +223,11 @@
   {% block content %}
   {% endblock %}
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-  crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-  crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-  crossorigin="anonymous"></script>
+
 
 <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
-  </body>
-</html>
 
+{% block graph %}
+  {% endblock %}  
+</body>
+</html>

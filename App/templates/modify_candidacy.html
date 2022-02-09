@@ -41,7 +41,13 @@
             {{ form.status.label() }}
             {{ form.status(value=candidacy.status, class="form-control") }}
             <br>
-            {{ form.submit(class="btn btn-lg btn-dark d-block", id="button")}}
+            {{ form.modif_date.label() }}
+            {{form.modif_date(value=candidacy.date)}}
+            <br>
+            {{ form.relance.label() }}
+            {{ form.relance(value=candidacy.relance)}}
+            <br>
+            {{ form.submit(class="btn btn-lg btn-primary d-block", id="button")}}
         </form>
     </div>  
 {% endblock %}

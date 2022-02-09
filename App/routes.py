@@ -1,8 +1,10 @@
+from ast import Try
 from flask import render_template, redirect, url_for, flash, request
+from sqlalchemy import JSON, false
 from App import db, app
 from datetime import date
-from .models import Users, Candidacy, Offer
-from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile, AddOffer, ModifyOffer
+from .models import Users, Candidacy, Offer, bot  
+from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile, AddOffer, ModifyOffer , Stats
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
@@ -10,6 +12,8 @@ import pandas as pd
 import plotly
 import plotly.express as px
 import json
+import numpy as np
+from .tools import math_relance, count_alertes
 
 @app.route('/')
 @app.route('/welcome')
@@ -56,8 +60,10 @@ def board_page():
     Returns:
         [str]: [board page code different if the user is admin or not]
     """
+
     admin_candidacy_attributs = ["Apprenant",'plateforme', 'poste','entreprise', 'activite', 'type', 'lieu', 'Nom du contact','Email du contact', 'Téléphone du contact' ,'date','statut']
     usercandidacy_attributs = ['plateforme','poste','entreprise', 'activite', 'type', 'lieu','Nom du contact','Email du contact', 'Téléphone du contact' ,'date','statut']
+    app.jinja_env.globals.update(alertes = count_alertes())
 
 
     if (current_user.is_admin == True):  
@@ -120,7 +126,7 @@ def modify_candidacy():
     form = ModifyCandidacy()
     candidacy_id = request.args.get('id')
     candidacy = Candidacy.query.filter_by(id = candidacy_id).first()
-
+    
     if form.validate_on_submit():
         
         if candidacy:
@@ -134,6 +140,8 @@ def modify_candidacy():
             candidacy.contact_email = form.contact_email.data
             candidacy.contact_mobilephone = form.contact_mobilephone.data
             candidacy.status = form.status.data
+            candidacy.relance = form.relance.data
+            candidacy.date = form.modif_date.data
             db.session.commit()
 
             flash(f"La candidature a bien été modifiée",category="success")
@@ -274,4 +282,95 @@ def gestion_page():
     """[To add/modify/delete profiles]"""
 
     return render_template('gestion.html')
+
+@app.route('/callback', methods=['POST', 'GET'])
+def cb():
+    return gm(request.args.get('data'))
+
+@app.route('/scallback', methods=['POST', 'GET'])
+def tp():
+    return list_fonction(request.args.get('data'))
+   
+@app.route('/stats')
+@login_required
+def stats():
+    form = Stats()
+    list_learner = Users.get_all_learner()
+    option_select = []
+    for learner in list_learner:
+        if learner[1] not in option_select:
+            option_select.append(learner[1])
+    form.promo = option_select
+    return render_template('graph.html',form=form, list_option=option_select)
+
+def list_fonction(vue = "all"):
+    print(vue)
+    if(vue == "all"):
+        list_learner = Users.get_all_learner()
+    else:
+        list_learner = Users.find_by_promo(vue)
+    list_no_apprenticeship = str()
+    list_have_apprenticeship = str()
+    for learner in list_learner:
+        list_candidacy = Candidacy.find_by_user_id(learner[0])
+        apprenticeship = False
+        for candidacy in list_candidacy :
+            if candidacy["status"] == "Validée":
+                apprenticeship = True
+        if (apprenticeship) == True:
+            if (len(list_have_apprenticeship) == 0):
+                list_have_apprenticeship += str((Users.find_by_title(learner[0])))
+            else:
+                list_have_apprenticeship += ";" + str((Users.find_by_title(learner[0])))
+            
+        else:
+            if (len(list_no_apprenticeship) == 0):
+                list_no_apprenticeship += str((Users.find_by_title(learner[0])))
+            else:
+                list_no_apprenticeship += ";" + str((Users.find_by_title(learner[0])))
+    return(json.dumps(list_have_apprenticeship + "|" + list_no_apprenticeship))
+    
+def gm(vue = "all"):
+   
+    if(vue == "all"):
+        list_learner = Users.get_all_learner()
+    else:
+        list_learner = Users.find_by_promo(vue)
+    df = pd.DataFrame()
+    list_apprenticeship = []
+    list_status = []
+    for learner in list_learner:
+        list_candidacy = Candidacy.find_by_user_id(learner[0])
+        apprenticeship = False
+        status = "En cours"
+        for candidacy in list_candidacy :
+            if candidacy["status"] == "Validée":
+                apprenticeship = True
+                status = "Validée"
+        list_status.append(status)
+        list_apprenticeship.append(apprenticeship)
+    df["apprenticeship"] = list_apprenticeship
+    df["status"] = list_status
+    df = df.groupby("status").count().reset_index()
+    
+    fig = px.pie(df, values='apprenticeship', names ='status', title='Pourcentage alternance')
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+
+
+@app.route('/relance') 
+def notification():
+    header = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Dernière relance', 'A relancer dès le', 'A été relancé']
+    body = ['entreprise', 'contact_full_name', 'contact_email', 'contact_mobilephone' , 'date', 'relance' ]
+    
+    adresse = current_user.email_address
+    
+    # A importer pour ne pas instancier à chaque envois d'email. Voir pour en faire une table ? 
+    # tchek = tcheker([]) 
+    if count_alertes() > 0:
+        bot.mail_relance(adresse)
+    
+    app.jinja_env.globals.update(alertes = count_alertes())
+    return render_template('relance.html', title = header, user_candidacy=Candidacy.find_by_user_id(current_user.id), math_relance=math_relance, body = body)
+
 

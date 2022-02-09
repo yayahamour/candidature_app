@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField,EmailField,SubmitField,StringField
+from wtforms import PasswordField,EmailField,SubmitField,StringField, BooleanField, StringField, SelectField
 from wtforms.validators import Length,DataRequired,Email,EqualTo,ValidationError
-from wtforms.fields import SelectField
+from wtforms.fields import DateField, SelectField
 from .models import Users
 
 class Login(FlaskForm):
@@ -10,7 +10,6 @@ class Login(FlaskForm):
     email = EmailField(label="Adresse mail:", validators = [DataRequired()])
     password = PasswordField(label="Mot de passe:", validators = [DataRequired()])
     submit = SubmitField(label="Se connecter")
-
 
 class AddCandidacy(FlaskForm):
     """[Form to add candidacy]
@@ -37,6 +36,7 @@ class ModifyProfile(FlaskForm):
 class ModifyCandidacy(FlaskForm):
     """[form to modify candidacy]
     """
+
     plateforme = StringField(label='Plateforme', validators=[DataRequired()])
     poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer'])
     entreprise = StringField(label='Entreprise', validators=[DataRequired()])
@@ -78,4 +78,19 @@ class ModifyOffer(FlaskForm):
     contact_email = StringField(label='Email du contact', validators=[DataRequired()])
     contact_mobilephone = StringField(label='Téléphone du contact')
     
+    submit = SubmitField(label="Valider")
+
+    contact_full_name = StringField(label='contact_full_name', validators=[DataRequired()])
+    contact_email = StringField(label='contact_email', validators=[DataRequired()])
+    contact_mobilephone = StringField(label='contact_mobilephone')
+    status = StringField(label='Status', validators=[DataRequired()])
+    modif_date = DateField('Date', format='%Y-%m-%d')
+    submit = SubmitField(label="Valider")
+    status = SelectField(label='Status', validators=[DataRequired()], choices=["En cours", "Accepté", "Refusé"])
+    relance = BooleanField('A été relancé ? ')
+    
+
+class Stats(FlaskForm):
+    promo =  SelectField('promo', choices=[])
+   
     submit = SubmitField(label="Valider")

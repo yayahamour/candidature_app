@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block script %}
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function cb(selection) {
+            $.getJSON({
+                url: "/callback", data: { 'data': selection }, success: function (result) {
+                    Plotly.newPlot('chart', result, {});;
+                }
+            });
+        }
+    </script>
+      <script>
+        function tp(selection) {
+          $.getJSON({
+                  url: "/scallback", data: { 'data': selection }, success: function (result){
+                  var t = document.getElementById("table");
+                  var header = document.getElementById("header");
+                  while(header.hasChildNodes())
+                  {
+                    header.removeChild(header.firstChild);
+                  }
+                  while(t.hasChildNodes())
+                  {
+                    t.removeChild(t.firstChild);
+                  }
+                  thead =document.createElement('thead')
+                  th = document.createElement('th')
+                  th.appendChild(document.createTextNode("Alternance"));
+                  th.style = "text-align:center";
+                  thead.appendChild(th);
+                  th = document.createElement('th');
+                  th.appendChild(document.createTextNode("Pas Alternance"));
+                  thead.appendChild(th);
+                  header.appendChild(thead);
+                  var i = 0;
+                  var j = 0;
+                  var tab = result.split("|");
+                  list1 = tab[0].split(";");
+                  list2 = tab[1].split(";");
+                  len1 = list1.length;
+                  len2 = list2.length;
+                  console.log(list2.length);
+                  var tr;
+                  var td;
+                  console.log(i);
+
+                  while(i < len1 || j < len2) {
+                    tr = t.insertRow();
+                    td = tr.insertCell(); 
+                    td.style = "text-align:center";
+                    if (i < len1){
+                      td.appendChild(document.createTextNode(list1[i]));
+                    }
+                    else {
+                      td.appendChild(document.createTextNode(""));
+                    }
+                    td = tr.insertCell();
+                    if (j < len2){
+                      td.appendChild(document.createTextNode(list2[j]));
+                    }
+                    else {
+                      td.appendChild(document.createTextNode(""));
+                    }
+                    i++;
+                    j++;
+                    console.log(list1[i]);
+                    console.log(list2[j]);
+                   }
+                   t = document.getElementById("table");;
+                  }
+              });
+          }
+      
+  </script>
+    {% endblock %}
+
+{% block graph %}
+<select onchange="cb(this.options[this.selectedIndex].text),tp(this.options[this.selectedIndex].text)">
+  <option  selected>all</option>
+  {% for choix in list_option%}
+    <option>{{choix}}</option>
+  {% endfor %}
+  </select>
+<div id="chart" class="chart"></div>
+<div class="tbl-header">
+  <table id="header" cellpadding="0" cellspacing="0" border="0">
+  </table>
+</div>
+<div class="tbl-content">
+  <table id="table" cellpadding="0" cellspacing="0" border="0">
+  </table>
+</div>
+
+<div id="png_chart"></div>
+<script>
+  cb("all");
+  tp("all");
+</script>
+{% endblock %}
+
+
+
+
+
