@@ -20,5 +20,4 @@ datetime
 plotly
 pgi
 plotly_express
-json
 pandas
