@@ -219,6 +219,7 @@ def gm(vue = "all"):
     fig = px.pie(df, values='apprenticeship', names ='status', title='Pourcentage alternance')
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+
 @app.route('/relance') 
 def notification():
     header = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Dernière relance', 'A relancer dès le', 'A été relancé']
