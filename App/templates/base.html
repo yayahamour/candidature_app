@@ -37,15 +37,16 @@
         <li class="nav-item ml-3">
           <a class="nav-link" href="{{ url_for('board_page') }}">Board</a>
         </li>
-        <li class="nav-item ml-3">
-          <div class="display flex row">
-            <a class="nav-link" href="{{ url_for('notification') }}">Relance  </a>
-            <div id="notif" >
-              {{alertes}} 
+        {% if current_user.is_admin == False %}
+          <li class="nav-item ml-3">
+            <div class="display flex row">
+              <a class="nav-link" href="{{ url_for('notification') }}">Relance  </a>
+              <div id="notif" >
+                {{alertes}} 
+              </div>
             </div>
-          </div>
-          
-        </li>
+          </li>
+        {% endif %}
         {% else %}
         <li class="nav-item ml-3">
           <a class="nav-link" href="{{ url_for('login_page') }}">Board</a>

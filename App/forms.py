@@ -35,12 +35,13 @@ class ModifyCandidacy(FlaskForm):
     contact_email = StringField(label='contact_email', validators=[DataRequired()])
     contact_mobilephone = StringField(label='contact_mobilephone')
     status = StringField(label='Status', validators=[DataRequired()])
-
+    modif_date = DateField('Date', format='%Y-%m-%d')
     submit = SubmitField(label="Valider")
+    status = SelectField(label='Status', validators=[DataRequired()], choices=["En cours", "Accepté", "Refusé"])
+    relance = BooleanField('A été relancé ? ')
+    
 
 class Stats(FlaskForm):
     promo =  SelectField('promo', choices=[])
-    status = SelectField(label='Status', validators=[DataRequired()], choices=["En cours", "Accepté", "Refusé"])
-    relance = BooleanField('A été relancé ? ')
-    modif_date = DateField('Date', format='%Y-%m-%d')
+   
     submit = SubmitField(label="Valider")
