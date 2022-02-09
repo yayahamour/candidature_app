@@ -1,9 +1,11 @@
-from App import db,login_manager
+from App import db,login_manager, mail , app
 import datetime 
 from flask_login import UserMixin # allow to set variable is_active=True and to stay connected
 import logging as lg
 from werkzeug.security import generate_password_hash
 import csv
+from dataclasses import dataclass, field 
+from flask_mail import Mail , Message
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -16,6 +18,39 @@ def load_user(user_id):
         instance of users depending of his id
     """
     return Users.query.get(int(user_id))
+
+
+class Bot:
+
+    def __init__(self, date_tchecker=[1]):
+        self.date_tchecker = date_tchecker
+
+
+    def mail_relance(self, adresse):
+        
+        jour = str(datetime.date.today())[8:]
+        if str(self.date_tchecker[-1]) != jour:
+            msg = Message(subject="Relance suivit candidature Simplon", 
+                        body="Bonjour Apprenant, \nJe suis le bot créer par tes confrères et je suis là pour te rappeler que tu as des alertes de candidatures à relancer. \nVa vite faire un tour sur http://suivicandidature.herokuapp.com/",
+                        sender=app.config.get("MAIL_USERNAME"),
+                        recipients=[adresse])
+            try: 
+                #mail.send(msg)
+                print('jour : ', jour)
+                print('element liste all', self.date_tchecker )
+                print('dernier element de la liste', self.date_tchecker[-1])
+                print('-------------------   email envoyé! ------------------- \n')
+            except:
+                print('ERROR - Please tchek your email config')
+            del self.date_tchecker[-1]
+            self.date_tchecker.append(jour)
+        else:
+            print('Message Non envoyé')
+    
+    
+    
+bot = Bot()
+
 
 class Users(db.Model,UserMixin):
     """Create a table Users on the candidature database

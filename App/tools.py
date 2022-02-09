@@ -1,3 +1,4 @@
+from gi.repository import Notify
 from .models import Candidacy
 from flask_login import current_user
 import datetime 
@@ -35,31 +36,17 @@ def count_alertes():
     return alertes
 
 
-
-
-
-
-class tcheker:
-    def __init__(self,date_tchecker):
-        self.date_tchecker = [0]
-        
-    def mail_relance(self, adresse):
-        date_now = str(datetime.date.today())
-        jour = date_now[8:]
-        
-        if jour != self.date_tchecker[-1]:
+def notif_relance( alerte):
+    Notify.init('Suivit-candidature')
+    title = 'Simplon - Suivit candidature'
+    inside = "s" if alerte > 1 else ""
+    message = f" Tu as {alerte} candidature{inside} à relancer"
+    icone = 'dialog-information'
+    if alerte > 0 :
+        notif = Notify.Notification.new(title,message,icone)
+        notif.show()
             
-            msg = Message(subject="Relance suivit candidature Simplon", 
-                        body="Bonjour Apprenant, \nJe suis le bot créer par tes confrères et je suis là pour te rappeler que tu as des alertes de candidatures à relancer. \nVa vite faire un tour sur http://suivicandidature.herokuapp.com/",
-                        sender=app.config.get("MAIL_USERNAME"),
-                        recipients=[adresse])
-            mail.send(msg)
-            del self.date_tchecker[-1]
-            self.date_tchecker.append(jour)
-
-    
-tchek = tcheker([0])
-    
+            
 
 def math_relance(date):
     annee = int(date.replace('-','')[0:4])

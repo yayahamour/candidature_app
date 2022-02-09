@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
@@ -16,7 +16,7 @@ mail_settings = {
     "MAIL_PORT": 465,
     "MAIL_USE_TLS": False,
     "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": 'simplon.bot.hdf@gmail.com',
+    "MAIL_USERNAME": 'simplon.bot@gmail.com',
     "MAIL_PASSWORD": 'simplon@59'
 }
 

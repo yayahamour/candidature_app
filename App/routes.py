@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, flash, request
 from sqlalchemy import JSON, false
 from App import db, app
 from datetime import date
-from .models import Users, Candidacy
+from .models import Users, Candidacy , bot 
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile, Stats
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -12,7 +12,7 @@ import json
 import plotly
 import plotly.express as px
 import numpy as np
-from .tools import math_relance, count_alertes, tchek
+from .tools import math_relance, count_alertes
 
 
 @app.route('/')
@@ -219,6 +219,8 @@ def gm(vue = "all"):
     fig = px.pie(df, values='apprenticeship', names ='status', title='Pourcentage alternance')
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+
+
 @app.route('/relance') 
 def notification():
     header = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Dernière relance', 'A relancer dès le', 'A été relancé']
@@ -226,10 +228,11 @@ def notification():
     
     adresse = current_user.email_address
     
+    # A importer pour ne pas instancier à chaque envois d'email. Voir pour en faire une table ? 
+    # tchek = tcheker([]) 
     if count_alertes() > 0:
-        tchek.mail_relance(adresse)
-            
-    app.jinja_env.globals.update(alertes = count_alertes())
+        bot.mail_relance(adresse)
     
+    app.jinja_env.globals.update(alertes = count_alertes())
     return render_template('relance.html', title = header, user_candidacy=Candidacy.find_by_user_id(current_user.id), math_relance=math_relance, body = body)
 
