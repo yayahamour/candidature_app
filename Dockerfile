@@ -4,5 +4,4 @@ RUN apt-get install -y python3-pip python3-dev build-essential
 COPY . /App
 WORKDIR /App
 RUN pip install -r requirements.txt
-ENTRYPOINT ["python3"]
-CMD ["run.py"]
+ENTRYPOINT ["python3 app.py"]
