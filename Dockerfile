@@ -5,4 +5,4 @@ COPY . /App
 WORKDIR /App
 RUN pip install -r requirements.txt
 ENTRYPOINT ["python3"]
-CMD ["create.py", "run.py"]
+CMD ["create.py && run.py"]
