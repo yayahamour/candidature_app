@@ -1,4 +1,3 @@
-from gi.repository import Notify
 from .models import Candidacy
 from flask_login import current_user
 import datetime 
@@ -36,15 +35,6 @@ def count_alertes():
     return alertes
 
 
-def notif_relance( alerte):
-    Notify.init('Suivit-candidature')
-    title = 'Simplon - Suivit candidature'
-    inside = "s" if alerte > 1 else ""
-    message = f" Tu as {alerte} candidature{inside} à relancer"
-    icone = 'dialog-information'
-    if alerte > 0 :
-        notif = Notify.Notification.new(title,message,icone)
-        notif.show()
 
 
 
