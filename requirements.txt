@@ -16,3 +16,12 @@ uWSGI==2.0.20
 Werkzeug==1.0.1
 WTForms==3.0.1
 flask_mail
+datetime
+logging
+csv
+plotly
+pgi
+plotly_express
+ast
+json
+pandas
