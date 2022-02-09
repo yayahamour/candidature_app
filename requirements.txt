@@ -19,6 +19,5 @@ flask_mail
 datetime
 plotly
 pycairo==1.16.2
-PyGObject==3.36.0
 plotly_express
 pandas
