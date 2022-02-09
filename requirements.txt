@@ -17,7 +17,6 @@ Werkzeug==1.0.1
 WTForms==3.0.1
 flask_mail
 datetime
-csv
 plotly
 pgi
 plotly_express
