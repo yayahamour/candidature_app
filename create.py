@@ -1,3 +1,4 @@
 from App import models
 
-models.init_db()
+def create_db():
+    models.init_db()
