@@ -17,8 +17,6 @@ patsy
 pgi
 plotly
 plotly-express
-pycairo
-PyGObject
 pyparsing
 python-dateutil
 pytz
