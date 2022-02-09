@@ -28,4 +28,3 @@ tenacity
 Werkzeug
 WTForms
 wtforms-html5
-libgirepository1.0-dev
