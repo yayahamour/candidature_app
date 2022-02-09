@@ -4,6 +4,7 @@ from flask_login import UserMixin # allow to set variable is_active=True and to 
 import logging as lg
 from werkzeug.security import generate_password_hash
 import csv
+from flask import jsonify
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -68,7 +69,12 @@ class Candidacy(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True, nullable=False, unique=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'),nullable=False)
+    plateforme = db.Column(db.String(), nullable=True)
+    poste = db.Column(db.String(), nullable=True)
     entreprise = db.Column(db.String(), nullable=False)
+    activite = db.Column(db.String(), nullable=True)
+    type = db.Column(db.String(), nullable=True)
+    lieu = db.Column(db.String(), nullable=True)
     contact_full_name = db.Column(db.String(length=50), nullable=False)
     contact_email = db.Column(db.String(length=50), nullable=True)
     contact_mobilephone = db.Column(db.String(length=50), nullable=True)
@@ -82,7 +88,12 @@ class Candidacy(db.Model):
         return {
             'id': self.id, 
             'user_id': self.user_id, 
+            'plateforme': self.plateforme,
+            'poste': self.poste,
             'entreprise': self.entreprise,
+            'activite': self.activite,
+            'type': self.type,
+            'lieu': self.lieu,
             'contact_full_name': self.contact_full_name,
             'contact_email': self.contact_email,
             'contact_mobilephone': self.contact_mobilephone,
@@ -101,9 +112,73 @@ class Candidacy(db.Model):
     @classmethod
     def get_all_in_list_with_user_name(cls):
         candidacy_list=[]
-        for candidacy in cls.query.join(Users).with_entities(Users.first_name,cls.entreprise, cls.contact_full_name, cls.contact_email, cls.contact_mobilephone,cls.date,cls.status).all():
+        for candidacy in cls.query.join(Users).with_entities(Users.first_name, cls.plateforme, cls.poste, cls.entreprise, cls.activite, cls.type, cls.lieu,  cls.contact_full_name, cls.contact_email, cls.contact_mobilephone,cls.date,cls.status).all():
             candidacy_list.append(candidacy)
         return candidacy_list
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
+
+class Offer(db.Model):
+    """Create a table Offer on the candidature database
+
+    Args:
+        db.Model: Generates columns for the table
+
+    """
+
+    id = db.Column(db.Integer(), primary_key=True, nullable=False, unique=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id'),nullable=False)
+    lien = db.Column(db.String(), nullable=True)
+    poste = db.Column(db.String(), nullable=True)
+    entreprise = db.Column(db.String(), nullable=False)
+    activite = db.Column(db.String(), nullable=True)
+    type = db.Column(db.String(), nullable=True)
+    lieu = db.Column(db.String(), nullable=True)
+    contact_full_name = db.Column(db.String(length=50), nullable=False)
+    contact_email = db.Column(db.String(length=50), nullable=True)
+    contact_mobilephone = db.Column(db.String(length=50), nullable=True)
+    date = db.Column(db.String(), default=datetime.date.today())
+
+
+    def __repr__(self):
+        return f' Candidat id : {self.user_id}'
+
+    def json(self):
+        return {
+            'id': self.id, 
+            'user_id': self.user_id, 
+            'lien': self.lien,
+            'poste': self.poste,
+            'entreprise': self.entreprise,
+            'activite': self.activite,
+            'type': self.type,
+            'lieu': self.lieu,
+            'contact_full_name': self.contact_full_name,
+            'contact_email': self.contact_email,
+            'contact_mobilephone': self.contact_mobilephone,
+            'date': self.date,
+            }
+
+
+    @classmethod
+    def find_by_user_id(cls, user_id):
+        offer_list=[]
+        for offer in cls.query.filter_by(user_id=user_id).all():
+            offer_list.append(offer.json())
+        return jsonify(offer_list)
+
+    @classmethod
+    def get_all_in_list_with_user_name(cls):
+        offer_list=[]
+        for offer in cls.query.join(Users).with_entities(Users.first_name, cls.lien, cls.poste, cls.entreprise, cls.activite, cls.type, cls.lieu,  cls.contact_full_name, cls.contact_email, cls.contact_mobilephone, cls.date).all():
+            offer_list.append(offer)
+        return offer_list
 
     def save_to_db(self):
         db.session.add(self)
@@ -117,11 +192,6 @@ class Candidacy(db.Model):
 def init_db():
     db.drop_all()
     db.create_all()
-    #db.session.add( )
-    Users(last_name="ben", first_name= "charles", email_address= "cb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=True).save_to_db() 
-    Users(last_name="beniac", first_name= "cha", email_address= "bb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=False).save_to_db()
-    Candidacy(user_id = 1, entreprise = "facebook", contact_full_name = "mz", contact_email="mz@facebook.fb").save_to_db()
-    Candidacy(user_id = 1, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com").save_to_db()
 
     
     # Insert all users from  "static/liste_apprenants.csv"

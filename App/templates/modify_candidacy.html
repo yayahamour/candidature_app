@@ -11,6 +11,24 @@
         <form method="POST" class="form-register">
             {{ form.hidden_tag() }}
 
+            {{ form.plateforme.label() }}
+            {{ form.plateforme(value=candidacy.plateforme, class="form-control") }}
+            <br>
+            {{ form.poste.label() }}
+            {{ form.poste(value=candidacy.poste, class="form-control") }}
+            <br>
+            {{ form.entreprise.label() }}
+            {{ form.entreprise(value=candidacy.entreprise, class="form-control") }}
+            <br>
+            {{ form.activite.label() }}
+            {{ form.activite(value=candidacy.activite, class="form-control") }}
+            <br>
+            {{ form.type.label() }}
+            {{ form.type(value=candidacy.type, class="form-control") }}
+            <br>
+            {{ form.lieu.label() }}
+            {{ form.lieu(value=candidacy.lieu, class="form-control") }}
+            <br>
             {{ form.contact_full_name.label() }}
             {{ form.contact_full_name(value=candidacy.contact_full_name, class="form-control") }}
             <br>
@@ -23,7 +41,7 @@
             {{ form.status.label() }}
             {{ form.status(value=candidacy.status, class="form-control") }}
             <br>
-            {{ form.submit(class="btn btn-lg btn-primary d-block", id="button")}}
+            {{ form.submit(class="btn btn-lg btn-dark d-block", id="button")}}
         </form>
     </div>  
 {% endblock %}
