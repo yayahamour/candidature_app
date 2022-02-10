@@ -208,15 +208,17 @@ def add_offer():
         return redirect(url_for('offres_page'))
     return render_template('add_offer.html', form=form)
 
-@app.route('/see_offer')
-def see_offer():
-    """[Go the job page]"""
-    return 'EN COURS'
-
 @app.route('/add_to_candidacy')
 def add_to_candidacy():
     """[Add an offer to a candadicies list]"""
-    return 'EN COURS'
+
+    form = AddCandidacy()
+    if form.validate_on_submit():
+        Candidacy(user_id = current_user.id, plateforme = form.plateforme.data, poste = form.poste.data, entreprise = form.entreprise.data, activite = form.activite.data, type = form.type.data, lieu = form.lieu.data, contact_full_name = form.contact_full_name.data, contact_email = form.contact_email.data, contact_mobilephone = form.contact_mobilephone.data).save_to_db()
+        flash('Nouvelle Candidature ajoutée ', category='secondary')
+        return redirect(url_for('board_page'))
+    return render_template('add_candidacy.html', form=form)
+
 
 @app.route('/modify_offer', methods=['GET', 'POST'])
 @login_required

@@ -121,7 +121,7 @@ class Candidacy(db.Model):
     activite = db.Column(db.String(), nullable=True)
     type = db.Column(db.String(), nullable=True)
     lieu = db.Column(db.String(), nullable=True)
-    contact_full_name = db.Column(db.String(length=50), nullable=False)
+    contact_full_name = db.Column(db.String(length=50), nullable=True)
     contact_email = db.Column(db.String(length=50), nullable=True)
     contact_mobilephone = db.Column(db.String(length=50), nullable=True)
     date = db.Column(db.String(), default=datetime.date.today())

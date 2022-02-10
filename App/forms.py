@@ -83,14 +83,14 @@ class ModifyOffer(FlaskForm):
     
     submit = SubmitField(label="Valider")
 
-    contact_full_name = StringField(label='contact_full_name', validators=[DataRequired()])
-    contact_email = StringField(label='contact_email', validators=[DataRequired()])
-    contact_mobilephone = StringField(label='contact_mobilephone')
-    status = StringField(label='Status', validators=[DataRequired()])
-    modif_date = DateField('Date', format='%Y-%m-%d')
-    submit = SubmitField(label="Valider")
-    status = SelectField(label='Status', validators=[DataRequired()], choices=["En cours", "Accepté", "Refusé"])
-    relance = BooleanField('A été relancé ? ')
+    # contact_full_name = StringField(label='contact_full_name', validators=[DataRequired()])
+    # contact_email = StringField(label='contact_email', validators=[DataRequired()])
+    # contact_mobilephone = StringField(label='contact_mobilephone')
+    # status = StringField(label='Status', validators=[DataRequired()])
+    # modif_date = DateField('Date', format='%Y-%m-%d')
+    # submit = SubmitField(label="Valider")
+    # status = SelectField(label='Status', validators=[DataRequired()], choices=["En cours", "Accepté", "Refusé"])
+    # relance = BooleanField('A été relancé ? ')
     
 
 class Stats(FlaskForm):
