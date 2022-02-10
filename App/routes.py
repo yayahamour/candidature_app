@@ -43,7 +43,7 @@ def login_page():
         user = Users.query.filter_by(email_address=form.email.data).first()
         if user and check_password_hash(user.password_hash, form.password.data):
             login_user(user)
-            flash(f"Vous êtes connecté en tant que : {user.first_name} {user.last_name}",category="success")
+            flash(f"Vous êtes connecté en tant que : {user.first_name} {user.last_name}",category="secondary")
             return redirect(url_for('board_page'))
         else:
             flash('Adresse email ou mot de passe invalide',category="danger")
@@ -77,7 +77,7 @@ def logout_page():
     """[Allows to disconnect the user and redirect to the home page]
     """
     logout_user()
-    flash('Vous êtes correctement déconnecté',category="success")
+    flash('Vous êtes correctement déconnecté',category="secondary")
     return redirect(url_for('welcome_page'))
 
 @app.route('/candidature', methods= ['GET', 'POST'])
@@ -90,7 +90,7 @@ def add_candidature():
     form = AddCandidacy()
     if form.validate_on_submit():
         Candidacy(user_id = current_user.id, plateforme = form.plateforme.data, poste = form.poste.data, entreprise = form.entreprise.data, activite = form.activite.data, type = form.type.data, lieu = form.lieu.data, contact_full_name = form.contact_full_name.data, contact_email = form.contact_email.data, contact_mobilephone = form.contact_mobilephone.data).save_to_db()
-        flash('Nouvelle Candidature ajoutée ', category='success')
+        flash('Nouvelle Candidature ajoutée ', category='secondary')
         return redirect(url_for('board_page'))
     return render_template('add_candidacy.html', form=form)
 
@@ -109,7 +109,7 @@ def modify_profile():
             db.session.add(current_user)
             db.session.commit()
 
-            flash(f"Votre mot de passe a été modifié",category="success")
+            flash(f"Votre mot de passe a été modifié",category="secondary")
             return redirect(url_for('board_page'))
         else:
             flash('Adresse email ou mot de passe invalide',category="danger")
@@ -144,7 +144,7 @@ def modify_candidacy():
             candidacy.date = form.modif_date.data
             db.session.commit()
 
-            flash(f"La candidature a bien été modifiée",category="success")
+            flash(f"La candidature a bien été modifiée",category="secondary")
             return redirect(url_for('board_page'))
         else:
             flash('Something goes wrong',category="danger")
@@ -156,7 +156,7 @@ def delete_candidacy():
 
     candidacy_id = request.args.get('id')
     Candidacy.query.filter_by(id=candidacy_id).first().delete_from_db()
-    flash("Candidature supprimée avec succès",category="success")
+    flash("Candidature supprimée avec succès",category="secondary")
     return redirect(url_for('board_page'))
 
 @app.route('/visualisation')
@@ -189,9 +189,9 @@ def offres_page():
         [str]: [board page code different if the user is admin or not]
     """
 
-    offer_attributs = ['Ajoutée par', 'lien', 'poste','entreprise', 'activite', 'type', 'lieu', 'Nom du contact','Email du contact', 'Téléphone du contact' ,'date']
+    offer_attributs = ['poste','entreprise', 'activite', 'type', 'lieu', 'Nom du contact','Email du contact', 'Téléphone du contact' ,'date']
 
-    return render_template('offres.html', lenght = len(offer_attributs), title = offer_attributs, user_offer=Offer.get_all_in_list_with_user_name())
+    return render_template('offres.html', lenght = len(offer_attributs), title = offer_attributs, user_offer=Offer.get_all())
  
 
 @app.route('/add_offer', methods= ['GET', 'POST'])
@@ -204,7 +204,7 @@ def add_offer():
     form = AddOffer()
     if form.validate_on_submit():
         Offer(user_id = current_user.id, lien = form.lien.data, poste = form.poste.data, entreprise = form.entreprise.data, activite = form.activite.data, type = form.type.data, lieu = form.lieu.data, contact_full_name = form.contact_full_name.data, contact_email = form.contact_email.data, contact_mobilephone = form.contact_mobilephone.data).save_to_db()
-        flash("Nouvelle offre d'emploi ajoutée", category='success')
+        flash("Nouvelle offre d'emploi ajoutée", category='secondary')
         return redirect(url_for('offres_page'))
     return render_template('add_offer.html', form=form)
 
@@ -244,7 +244,7 @@ def modify_offer():
             offer.contact_mobilephone = form.contact_mobilephone.data
             db.session.commit()
 
-            flash(f"L'offre d'emploi a bien été modifiée",category="success")
+            flash(f"L'offre d'emploi a bien été modifiée",category="secondary")
             return redirect(url_for('offres_page'))
         else:
             flash('Something goes wrong',category="danger")
@@ -256,7 +256,7 @@ def delete_offer():
 
     offer_id = request.args.get('id')
     Offer.query.filter_by(id=offer_id).first().delete_from_db()
-    flash("Offre d'emploi supprimée avec succès",category="success")
+    flash("Offre d'emploi supprimée avec succès",category="secondary")
     return redirect(url_for('offres_page'))
 
 @app.route('/relaunch')

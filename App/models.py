@@ -225,6 +225,13 @@ class Offer(db.Model):
         return jsonify(offer_list)
 
     @classmethod
+    def fget_all(cls):
+        offer_list=[]
+        for offer in cls.query.all():
+            offer_list.append(offer.json())
+        return jsonify(offer_list)
+
+    @classmethod
     def get_all_in_list_with_user_name(cls):
         offer_list=[]
         for offer in cls.query.join(Users).with_entities(Users.first_name, cls.lien, cls.poste, cls.entreprise, cls.activite, cls.type, cls.lieu,  cls.contact_full_name, cls.contact_email, cls.contact_mobilephone, cls.date).all():
