@@ -155,7 +155,7 @@ def cal():
         [str]: [the calender page returns the events saved to the calender]
     """
     event_attributes = ['event', 'start date', 'end date', 'url']
-    return render_template('calender.html', events=Events.find_by_user_id(current_user.id))
+    return render_template('calender.html', title=event_attributes, events=Events.find_by_user_id(current_user.id))
 
 
 @app.route('/add', methods=['GET', "POST"])
