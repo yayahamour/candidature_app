@@ -27,4 +27,3 @@ Werkzeug
 WTForms
 wtforms-html5
 PyGObject
-pycairo
