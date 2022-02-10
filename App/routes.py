@@ -13,7 +13,7 @@ import plotly
 import plotly.express as px
 import json
 import numpy as np
-from .tools import math_relance, count_alertes
+from .tools import math_relance, count_alertes, notif_relance
 
 @app.route('/')
 @app.route('/welcome')
@@ -364,7 +364,7 @@ def relance_page():
     body = ['entreprise', 'contact_full_name', 'contact_email', 'contact_mobilephone' , 'date', 'relance' ]
     
     adresse = current_user.email_address
-    
+    notif_relance(count_alertes())
     # A importer pour ne pas instancier à chaque envois d'email. Voir pour en faire une table ? 
     # tchek = tcheker([]) 
     if count_alertes() > 0:
