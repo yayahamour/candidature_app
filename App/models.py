@@ -229,7 +229,7 @@ class Offer(db.Model):
         offer_list=[]
         for offer in cls.query.all():
             offer_list.append(offer.json())
-        return jsonify(offer_list)
+        return offer_list
 
     @classmethod
     def get_all_in_list_with_user_name(cls):
