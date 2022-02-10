@@ -3,7 +3,7 @@ from ast import Try
 from flask import render_template, redirect, url_for, flash, request
 from sqlalchemy import JSON, false
 from App import db, app
-from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile, 
+from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile
 from datetime import date, datetime
 from .models import Users, Candidacy, Offer, bot , Events
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile, AddOffer, ModifyOffer , Stats, AddEvent
