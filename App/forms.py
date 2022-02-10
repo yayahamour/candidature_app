@@ -41,17 +41,6 @@ class ModifyProfile(FlaskForm):
 
 
 class ModifyCandidacy(FlaskForm):
-    contact_full_name = StringField(
-        label='contact_full_name', validators=[DataRequired()])
-    contact_email = StringField(
-        label='contact_email', validators=[DataRequired()])
-    contact_mobilephone = StringField(label='contact_mobilephone')
-    status = StringField(label='Status', validators=[DataRequired()])
-    modified_date = DateField('Modification Date', format='%Y-%m-%d')
-    submit = SubmitField(label="Valider")
-
-
-class AddEvent(FlaskForm):
     plateforme = StringField(label='Plateforme', validators=[DataRequired()])
     poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer'])
     entreprise = StringField(label='Entreprise', validators=[DataRequired()])
@@ -67,7 +56,7 @@ class AddEvent(FlaskForm):
     submit = SubmitField(label="Valider")
 
 
-class AddEventG(FlaskForm):
+class AddEvent(FlaskForm):
     """[form to add events to Calender
     """
     event_title = StringField(label='Event title', validators=[DataRequired()])
@@ -95,26 +84,23 @@ class AddOffer(FlaskForm):
 class ModifyOffer(FlaskForm):
     """[form to modify offer]
     """
+
+    contact_full_name = StringField(label='Nom du contact', validators=[DataRequired()])
+    contact_email = StringField(label='Email du contact', validators=[DataRequired()])
+    contact_mobilephone = StringField(label='Téléphone du contact')
+    
     lien = StringField(label="Lien de l'offre", validators=[DataRequired()])
     poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer'])
     entreprise = StringField(label='Entreprise', validators=[DataRequired()])
     activite = SelectField(label='Activité', validators=[DataRequired()], choices = ['Industrie', 'Marketing','Medecine', 'Autre'])
     type = SelectField(label='Type', validators=[DataRequired()], choices = ['Cabinet Conseil', 'Grand Groupe','Start-up'])
     lieu = StringField(label='Lieu', validators=[DataRequired()])
-    contact_full_name = StringField(label='Nom du contact', validators=[DataRequired()])
-    contact_email = StringField(label='Email du contact', validators=[DataRequired()])
-    contact_mobilephone = StringField(label='Téléphone du contact')
     
-    submit = SubmitField(label="Valider")
-
-    contact_full_name = StringField(label='contact_full_name', validators=[DataRequired()])
-    contact_email = StringField(label='contact_email', validators=[DataRequired()])
-    contact_mobilephone = StringField(label='contact_mobilephone')
-    status = StringField(label='Status', validators=[DataRequired()])
     modif_date = DateField('Date', format='%Y-%m-%d')
-    submit = SubmitField(label="Valider")
     status = SelectField(label='Status', validators=[DataRequired()], choices=["En cours", "Accepté", "Refusé"])
     relance = BooleanField('A été relancé ? ')
+    
+    submit = SubmitField(label="Valider")
     
 
 class Stats(FlaskForm):

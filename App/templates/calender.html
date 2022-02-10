@@ -41,5 +41,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="container my-3">
     <div id="calendar" style="border: 1px solid silver"></div>
 </div>
+
+<div>
+  <button class="btn btn-lg btn-dark mt-4 d-block" id="button">
+    <a href="{{ url_for('add') }}">Ajouter un entretient</a>
+  </button>
+</div>
+
+
 {% endblock %}
 </div>
