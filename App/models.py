@@ -140,21 +140,23 @@ class Events(db.Model):
     def __repr__(self):
         return f' Candidat id : {self.user_id}'
 
-    def json(self):
-        return {
-            'id': self.id,
-            'user_id': self.user_id,
-            'event_title': self.event_title,
-            'start_date': self.start_date,
-            'end_date': self.end_date,
-            'url': self.url
-        }
+    def to_list(self):
+        tab_start = self.start_date.split('/')
+        start = tab_start[2] + "-" + tab_start[1] + "-" + tab_start[0]
+        tab_end = self.end_date.split('/')
+        end = tab_end[2] + "-" + tab_end[1] + "-" + tab_end[0] 
+        return [
+            self.event_title,
+            start,
+            end,
+            self.url
+        ]
 
     @classmethod
     def find_by_user_id(cls, user_id):
         event_list = []
         for event in cls.query.filter_by(user_id=user_id).all():
-            event_list.append(event.json())
+            event_list.append(event.to_list())
         return event_list
 
     @classmethod
@@ -186,8 +188,10 @@ def init_db():
               contact_email="mz@facebook.fb").save_to_db()
     Candidacy(user_id=1, entreprise="google", contact_full_name="lp",
               contact_email="lp@gmail.com").save_to_db()
-    Events(user_id=1, event_title='Test', start_date='08/02/2022',
+    Events(user_id=8, event_title='Test', start_date='08/02/2022',
            end_date='09/02/2022', url='').save_to_db()
+    Events(user_id=8, event_title='google', start_date='12/02/2022',
+           end_date='15/02/2022', url='https://www.google.fr').save_to_db()
 
     # Insert all users from  "static/liste_apprenants.csv"
     with open("App/static/liste_apprenants.csv", newline='') as f:

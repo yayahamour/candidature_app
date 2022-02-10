@@ -1,4 +1,5 @@
 from asyncio import events
+from tkinter.tix import InputOnly
 from flask import render_template, redirect, url_for, flash, request
 from App import db, app
 from datetime import date, datetime
@@ -6,7 +7,7 @@ from .models import Users, Candidacy, Events
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile, AddEvent
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
-
+import json
 
 @app.route('/')
 @app.route('/home')
@@ -155,7 +156,9 @@ def cal():
         [str]: [the calender page returns the events saved to the calender]
     """
     event_attributes = ['event', 'start date', 'end date', 'url']
-    return render_template('calender.html', title=event_attributes, events=Events.find_by_user_id(current_user.id))
+    print(current_user.id)
+    print(Events.find_by_user_id(current_user.id))
+    return render_template('calender.html', title=event_attributes, events=json.dumps(Events.find_by_user_id(current_user.id)))
 
 
 @app.route('/add', methods=['GET', "POST"])

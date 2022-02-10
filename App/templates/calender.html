@@ -2,28 +2,37 @@
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var calendarEl = document.getElementById("calendar");
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: "dayGridMonth",
-            // aspectRatio: 2.1,
-            initialDate: "2022-02-07",
-            headerToolbar: {
-                left: "prev,next today",
-                center: "title",
-                right: "dayGridMonth,timeGridWeek,timeGridDay",
-            },
-
+    function calend(my_events){
+        var list_event = [];
+        for (const event of my_events){
+                list_event.push({
+                    title: event[0],
+                    start: event[1],
+                    end: event[2],
+                    url: event[3]
+                 })
+        }
+        console.log(list_event)
+        document.addEventListener("DOMContentLoaded", function() {
+            var calendarEl = document.getElementById("calendar");
+            var calendar = new FullCalendar.Calendar(calendarEl,{
+                initialView: "dayGridMonth",
+                // aspectRatio: 2.1,
+                initialDate: "2022-02-07",
+                headerToolbar: {
+                    left: "prev,next today",
+                    center: "title",
+                    right: "dayGridMonth,timeGridWeek,timeGridDay",
+                },
+            events : list_event,
             eventClick: function(info) {
-                info.jsEvent.preventDefault(); // don't let the browser navigate
-
-                if (info.event.url) {
-                    window.open(info.line.url);
-                }
-            },
+                location.replace = info.url;
+            }
+            });
+            calendar.render();
         });
-        calendar.render();
-    });
+    }
+    calend({{ events|safe }})
 </script>
 {% endblock %} {% block button %}
 
