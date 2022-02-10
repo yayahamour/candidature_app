@@ -15,7 +15,6 @@ packaging
 pandas
 patsy
 plotly
-PyOBject
 plotly-express
 pyparsing
 python-dateutil
@@ -25,3 +24,5 @@ six
 statsmodels
 tenacity
 Werkzeug
+WTForms
+wtforms-html5
