@@ -10,13 +10,20 @@
 <section class="row col-10 bg-white mx-auto justify-content-center">
     <h2 class="col-12 text-dark my-5">TON PROFIL</h2>
     <div class="col-5 infos">
-        <p>Promo : </p>
-        <p>Année : </p>
-        <p>Nom : </p>
-        <p>Prénom : </p>
+        {% if current_user.is_admin == False %}
+        <p>Promo : {user.promo}</p>
+        <p>Année : {user.year}</p>
+        <p>Nom : {user.last_name}</p>
+        <p>Prénom : {user.first_name}</p>
         <p>Nombre de candidatures : </p>
         <p>Statistiques : </p>
         <p>Ajouter ton CV </p>
+        {% endif %}
+        {% if current_user.is_admin == True %}
+        <p>Nom : {current_user.last_name}</p>
+        <p>Prénom : {current_user.first_stat}</p>
+        <p>Poste à Simplon : </p>
+        {% endif %}
     </div>
     <div class="col-6">
         <img src="../static/profil.jpg">

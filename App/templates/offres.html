@@ -15,9 +15,7 @@ Board
           <th style="text-align:left">{{ col_name }}</th>
 
           {% endfor %}
-          {% if current_user.is_admin == False %}
           <th style="text-align:left"> action  </th>
-          {% endif %}
         </tr>
       </thead>
     </table>
@@ -32,7 +30,6 @@ Board
               <td>{{ offer[info] }}</td>
             {%endif %}
           {% endfor %}
-          {% if current_user.is_admin == False %}
           <td>
             <a href="{{offer.lien}}" target="_blank">
               <svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -59,18 +56,15 @@ Board
               </svg>
             </a>
           </td>
-          {% endif %}
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
-  {% if current_user.is_admin == False %}
   <div>
       <button class="btn btn-lg btn-dark mt-4 d-block" id="button">
         <a href="{{ url_for('add_offer') }}">Ajouter offre</a>
       </button>
   </div>
-  {% endif %}
 </section>
 {% endblock %}

@@ -43,7 +43,7 @@ def login_page():
         user = Users.query.filter_by(email_address=form.email.data).first()
         if user and check_password_hash(user.password_hash, form.password.data):
             login_user(user)
-            flash(f"Vous êtes connecté en tant que : {user.first_name} {user.last_name}",category="secondary")
+            flash(f"Vous êtes connecté en tant que : {user.first_name} {user.last_name} - promotion : {user.promo} {user.year}",category="secondary")
             return redirect(url_for('board_page'))
         else:
             flash('Adresse email ou mot de passe invalide',category="danger")
@@ -212,12 +212,13 @@ def add_offer():
 def add_to_candidacy():
     """[Add an offer to a candadicies list]"""
 
-    form = AddCandidacy()
-    if form.validate_on_submit():
-        Candidacy(user_id = current_user.id, plateforme = form.plateforme.data, poste = form.poste.data, entreprise = form.entreprise.data, activite = form.activite.data, type = form.type.data, lieu = form.lieu.data, contact_full_name = form.contact_full_name.data, contact_email = form.contact_email.data, contact_mobilephone = form.contact_mobilephone.data).save_to_db()
-        flash('Nouvelle Candidature ajoutée ', category='secondary')
-        return redirect(url_for('board_page'))
-    return render_template('add_candidacy.html', form=form)
+    # form = AddOffer()
+    # if form.validate_on_submit():
+    #     Candidacy(user_id = current_user.id, plateforme = "Offre de l'appli", poste = form.poste.data, entreprise = form.entreprise.data, activite = form.activite.data, type = form.type.data, lieu = form.lieu.data, contact_full_name = form.contact_full_name.data, contact_email = form.contact_email.data, contact_mobilephone = form.contact_mobilephone.data).save_to_db()
+    #     flash('Nouvelle Candidature ajoutée ', category='secondary')
+    #     return redirect(url_for('board_page'))
+    # return render_template('add_candidacy.html', form=form)
+    return 'En cours'
 
 
 @app.route('/modify_offer', methods=['GET', 'POST'])
@@ -283,7 +284,10 @@ def profil_page():
 def gestion_page():
     """[To add/modify/delete profiles]"""
 
-    return render_template('gestion.html')
+    userlist_attributs = ['Nom', 'Prénom', 'Email', 'Téléphone', 'promotion', 'année', 'CV', 'Droits']
+
+    if (current_user.is_admin == True):  
+        return render_template('gestion.html', lenght = len(userlist_attributs), title = userlist_attributs, user_list=Users.get_all())
 
 @app.route('/callback', methods=['POST', 'GET'])
 def cb():
