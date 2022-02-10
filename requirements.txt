@@ -15,6 +15,7 @@ packaging
 pandas
 patsy
 plotly
+PyOBject
 plotly-express
 pyparsing
 python-dateutil
