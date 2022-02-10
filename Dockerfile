@@ -7,4 +7,4 @@ RUN apt-get update -y
 RUN apt-get install -y pkg-config
 RUN pip install -r requirements.txt
 ENTRYPOINT ["python3"]
-CMD ["run.py"]
+CMD ["app.py"]
