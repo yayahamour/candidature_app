@@ -1,7 +1,7 @@
 blinker
 certifi
 click
-Flask
+flask
 Flask-Login
 Flask-Mail
 Flask-SQLAlchemy
@@ -16,17 +16,13 @@ pandas
 patsy
 plotly
 plotly-express
-pycairo
-PyGObject
 pyparsing
 python-dateutil
 pytz
 scipy
 six
-SQLAlchemy
 statsmodels
 tenacity
 Werkzeug
 WTForms
 wtforms-html5
-libgirepository1.0-dev
