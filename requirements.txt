@@ -1,7 +1,7 @@
 blinker
 certifi
 click
-Flask
+flask
 Flask-Login
 Flask-Mail
 Flask-SQLAlchemy
