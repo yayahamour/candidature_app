@@ -1,5 +1,3 @@
-pycairo
-PyGObject
 blinker
 certifi
 click
@@ -18,16 +16,13 @@ pandas
 patsy
 plotly
 plotly-express
-
 pyparsing
 python-dateutil
 pytz
 scipy
 six
-SQLAlchemy
 statsmodels
 tenacity
 Werkzeug
 WTForms
 wtforms-html5
-libgirepository1.0-dev
