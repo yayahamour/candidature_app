@@ -1,3 +1,5 @@
+pycairo
+PyGObject
 blinker
 certifi
 click
@@ -16,8 +18,7 @@ pandas
 patsy
 plotly
 plotly-express
-pycairo
-PyGObject
+
 pyparsing
 python-dateutil
 pytz
