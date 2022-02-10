@@ -19,14 +19,9 @@ from .tools import math_relance, count_alertes, notif_relance
 
 
 @app.route('/')
+@app.route('/home')
 @app.route('/welcome')
 def welcome_page():
-    """[Page for visitors before login]"""
-
-    return render_template('welcome.html')
-
-@app.route('/home')
-def home_page():
     """[Allow to generate the template of home.html on home path]
 
     Returns:
@@ -276,11 +271,6 @@ def delete_offer():
     flash("Offre d'emploi supprimée avec succès",category="success")
     return redirect(url_for('offres_page'))
 
-@app.route('/relaunch')
-def relaunch_page():
-    """[Show which candidacies need relaunch]"""
-
-    return render_template('relaunch.html')
 
 @app.route('/calendar')
 def calendar_page():
