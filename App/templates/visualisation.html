@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+    Visualisations
+    
+{% endblock %}
+
+
+{% block content %}
+<div id='chart' class='chart'”></div>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+    var graphs = {{graphavancement | safe}};
+    Plotly.plot('chart',graphs,{});
+</script>
+
+<div id='chart1' class='chart'”></div>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+    var graphs = {{graphmetier | safe}};
+    Plotly.plot('chart1',graphs,{});
+</script>
+
+<div id='chart2' class='chart'”></div>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+    var graphs = {{graphactivite | safe}};
+    Plotly.plot('chart2',graphs,{});
+</script>
+
+<div id='chart3' class='chart'”></div>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<script type='text/javascript'>
+    var graphs = {{graphtype | safe}};
+    Plotly.plot('chart3',graphs,{});
+</script>
+
+{% endblock %}
