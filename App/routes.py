@@ -357,7 +357,6 @@ def gm(vue = "all"):
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
 
-
 @app.route('/relance') 
 def relance_page():
     header = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Dernière relance', 'A relancer dès le', 'A été relancé']
