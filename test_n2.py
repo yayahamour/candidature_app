@@ -1,3 +1,4 @@
+"""
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Notify
@@ -22,7 +23,50 @@ def diff_date(date_to_compare = "2022-01-15"):
         return True 
     else:
         return False
+
+
+
+def diff_date(date_to_compare = "2022-01-15"):
+    date_today = str(datetime.date.today())
+    annee_1 = date_today[0:4]
+    mois_1 = date_today[5:7]
+    jours_1 = date_today[8:]
     
+    annee_2 = date_to_compare[0:4]
+    mois_2 = date_to_compare[5:7]
+    jours_2 = date_to_compare[8:]
+    if (annee_1 >= annee_2 ) and (mois_1 > mois_2 ) :
+        return True
+    elif (annee_1 >= annee_2 ) and (mois_1 >= mois_2) and (jours_1 > jours_2):
+        return True 
+    else:
+        return False
+
+
+
+
+
+
+
+
+def count_candidature():
+    nbr_candidature = 0
+    this_user = Candidacy.find_by_user_id(current_user.id)
+    for i in this_user :
+        if i['status'] == 'En cours':
+            nbr_candidature += 1
+    return nbr_candidature
+
+def count_candidature_total():
+    nbr_candidature_total = 0
+    total_user = Candidacy.get_all_in_list_with_user_name(current_user.id)
+    for i in total_user :
+        if i['status'] == 'En cours':
+            nbr_candidature_total += 1
+    return nbr_candidature_total
+
+
+
 def count_alertes():
     
     alertes = 0 
@@ -76,21 +120,4 @@ def math_relance(date):
     
     return result
 
-# Obtenir le nombre de candiature en cours total de la promo et par apprenant
-
-def count_candidature():
-    nbr_candidature = 0
-    this_user = Candidacy.find_by_user_id(current_user.id)
-    for i in this_user :
-        if i['status'] == 'En cours':
-            nbr_candidature += 1
-    return nbr_candidature
-
-def count_candidature_total():
-    nbr_candidature_total = 0
-    total_user = Candidacy.get_all_in_list_with_user_name(current_user.id)
-    for i in total_user :
-        if i['status'] == 'En cours':
-            nbr_candidature_total += 1
-    return nbr_candidature_total
-
+"""

@@ -5,7 +5,7 @@ from .models import Users, Candidacy
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
-from .tools import notif_relance , math_relance, count_alertes
+from .tools import notif_relance , math_relance, count_alertes,count_candidature
 
 @app.route('/')
 @app.route('/home')
@@ -148,3 +148,11 @@ def notification():
     app.jinja_env.globals.update(alertes = count_alertes())
     
     return render_template('relance.html', title = header, user_candidacy=Candidacy.find_by_user_id(current_user.id), math_relance=math_relance, body = body)
+
+
+
+@app.route('/profile') 
+def profile_page():
+   
+    
+    return render_template('profile.html',count_candidature = count_candidature())

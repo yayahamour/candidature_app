@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+Profile
+{% endblock %}
+
+{% block content %}
+<body>
+  <section class="row col-8 mx-auto center justify-content-center border"> 
+    <h2 class="text-primary my-4">Profile</h2>
+  </section>
+
+  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+    <option selected>Faite votre choix</option>
+    <option value="1">Semaine</option>
+    <option value="2">Mois</option>
+  </select> 
+
+  <section>
+      <h3>Apprenant</h3>
+      <div id= "apprenant">
+          <p>{{nbr_candidature}}</p>
+
+      </div>
+      <h4>Promo</h4>
+      <div id="promo">
+          <p>{{nbr_candidature_total}}</p>
+      </div>
+  </section>
+{% endblock %}
+  
+</body>

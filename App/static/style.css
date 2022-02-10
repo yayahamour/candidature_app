@@ -6,6 +6,22 @@ h1{
     text-align: center;
     margin-bottom: 15px;
   }
+
+  h3{
+    position: absolute;
+    width: 190px;
+    height: 62px;
+    left: 749px;
+    top: 395px;
+  }
+
+  h4{
+    position: absolute;
+    width: 117px;
+    height: 67px;
+    left: 749px;
+    top: 785px;
+  }
   section h2{
     text-align: center;
   }
@@ -16,6 +32,9 @@ h1{
   section{
     border-radius: 20px;
   }
+
+
+
   img{
     width: 100%;
     margin-bottom: 40px;
@@ -50,6 +69,42 @@ h1{
     font-family: 'Roboto', sans-serif;
     line-height: 30px;
   }
+/*
+  #cand_stats{
+    position: absolute;
+    width: 689px;
+    height: 784px;
+    left: 679px;
+    top: 240px;
+    background: #FFFFFF;
+  }*/
+
+  #apprenant{
+    height: 300px;
+    width: 300px;
+    left: 981px;
+    top: 274px;
+    border-radius: 150px;
+    background-color: darkgray;
+  }
+
+  #promo{
+    height: 300px;
+    width: 300px;
+    left: 984px;
+    top: 668px;
+    border-radius: 150px;    
+    background-color: darkgray;
+
+  }
+/*.stat_promo{
+
+  
+}
+.stat_apprenant{
+
+  
+}*/
   td{
     padding: 15px;
     text-align: left;
