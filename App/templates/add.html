@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block title %} Add Event {% endblock %} {% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Add an Event</h1>
+    <br />
+    <form method="POST" class="form-register">
+        {{ form.hidden_tag() }} {{ form.event_title.label }} {{ form.event_title(size=32, class="form-control") }}
+        <br /> {{ form.start_date.label }} {{ form.start_date(size=32, class="form-control") }} <br /> {{ form.end_date.label }} {{ form.end_date(size=32, class="form-control") }}
+        <br /> {{ form.url.label }} {{ form.url(size=32, class="form-control") }} <br /> {{ form.submit(class="btn btn-lg btn-primary mt-4 d-block",id="button") }}
+    </form>
+    <!-- <div class="mb-3">
+            <label for="title" class="form-label">Event title</label>
+            <input type="text" class="form-control" name="title" id="title" , placeholder="Enter new event" />
+        </div>
+        <div class="mb-3">
+            <label for="start" class="form-label">Start date</label>
+            <input type="text" class="form-control" name="start" id="start" ,placeholder="Format is yy-mm-dd hh:mm>
+    </div>
+    <div class=" mb-3 ">
+      <label for="end " class="form-label ">End date</label>
+      <input type="text " class="form-control " name="end " id="end " />
+    </div>
+    <div class="mb-3 ">
+      <label for="url " class="form-label ">Event url</label>
+      <input
+        type="url "
+        class="form-control "
+        name="url "
+        id="url "
+        placeholder="Enter url "
+      />
+    </div>
+    <button type="submit " class="btn btn-outline-dark ">Submit</button>
+  </form> -->
+</div>
+{% endblock %}
