@@ -8,5 +8,5 @@ RUN pip install -r requirements.txt
 RUN pip3 install pycairo
 RUN pip3 install PyGObject
 
-ENTRYPOINT ["python3"]
+ENTRYPOINT ["python2"]
 CMD ["run.py"]
