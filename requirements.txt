@@ -24,6 +24,3 @@ six
 statsmodels
 tenacity
 Werkzeug
-WTForms
-wtforms-html5
-PyGObject
