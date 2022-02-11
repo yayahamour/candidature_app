@@ -8,7 +8,12 @@ app = Flask(__name__)
 
 app.config.from_object('config')
 app.config['SECRET_KEY']='secret'
-app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get("DATABASE_URL")
+import re
+
+uri = os.environ.get("DATABASE_URL") # or other relevant config var
+if uri and uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI']=uri
 db=SQLAlchemy(app)
 db.init_app(app)
 login_manager = LoginManager(app)
