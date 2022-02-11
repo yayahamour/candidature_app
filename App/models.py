@@ -65,8 +65,7 @@ class Users(db.Model,UserMixin):
     id = db.Column(db.Integer(), primary_key=True, nullable=False, unique=True)
     last_name = db.Column(db.String(length=30), nullable=False)
     first_name = db.Column(db.String(length=30), nullable=False)
-    email_address = db.Column(db.String(length=50),
-                              nullable=False, unique=True)
+    email_address = db.Column(db.String(length=50), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=200), nullable=False)
     telephone_number = db.Column(db.String(length=10), nullable=True)
     promo = db.Column(db.String(length=30), nullable=True)
@@ -79,6 +78,7 @@ class Users(db.Model,UserMixin):
 
     def json(self):
         return {
+            'id' : self.id,
             'last_name': self.last_name,
             'first_name': self.first_name,
             'email_address': self.email_address,

@@ -27,6 +27,18 @@ class AddUser(FlaskForm):
     curriculum = StringField(label='Lien du CV', validators=[DataRequired()])
     is_admin = BooleanField(' Droits administrateur : ')
     submit = SubmitField(label='Ajouter')
+
+class ModifyUser(FlaskForm):
+
+    last_name = StringField(label='Nom', validators=[DataRequired()])
+    first_name = StringField(label='Prénom', validators=[DataRequired()])
+    email_address = StringField(label='Email', validators=[DataRequired()])
+    telephone_number = StringField(label='Téléphone', validators=[DataRequired()])
+    promo = SelectField(label='Promotion', validators=[DataRequired()], choices = ['Dev IA', 'Dev java','Dev web', 'Cobol', 'Autre'])
+    year = StringField(label='Année', validators=[DataRequired()])
+    curriculum = StringField(label='CV', validators=[DataRequired()])
+    is_admin = BooleanField(' Droits administrateur : ')
+    submit = SubmitField(label="Valider")
 class AddCandidacy(FlaskForm):
     """[Form to add candidacy]
     """
@@ -64,7 +76,8 @@ class ModifyCandidacy(FlaskForm):
     contact_email = StringField(label='Email du contact', validators=[DataRequired()])
     contact_mobilephone = StringField(label='Téléphone du contact')
     status = SelectField(label='Statut', validators=[DataRequired()], choices = ['En cours', 'A été relancée',"En attente d'entretien", "Acceptée", "Refusée"])
-    modif_date = DateField('Date', format='%Y-%m-%d')
+    date = DateField('Date de création', format='%Y-%m-%d')
+    modified_date = DateField('Date de modification', format='%Y-%m-%d')
     relance = BooleanField('A été relancé ? ')
     submit = SubmitField(label="Valider")
 
@@ -108,11 +121,6 @@ class ModifyOffer(FlaskForm):
     activite = SelectField(label='Activité', validators=[DataRequired()], choices = ['Industrie', 'Marketing','Medecine', 'Autre'])
     type = SelectField(label='Type', validators=[DataRequired()], choices = ['Cabinet Conseil', 'Grand Groupe','Start-up'])
     lieu = StringField(label='Lieu', validators=[DataRequired()])
-    
-    modif_date = DateField('Date', format='%Y-%m-%d')
-    status = SelectField(label='Status', validators=[DataRequired()], choices=["En cours", "Accepté", "Refusé"])
-    relance = BooleanField('A été relancé ? ')
-    
     submit = SubmitField(label="Valider")
     
 

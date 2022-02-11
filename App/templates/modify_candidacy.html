@@ -41,8 +41,11 @@
             {{ form.status.label() }}
             {{ form.status(value=candidacy.status, class="form-control") }}
             <br>
-            {{ form.modif_date.label() }}
-            {{form.modif_date(value=candidacy.date)}}
+            {{ form.date.label() }}
+            {{form.date(value=candidacy.date)}}
+            <br>
+            {{ form.modified_date.label() }}
+            {{form.modified_date(value=candidacy.date)}}
             <br>
             {{ form.relance.label() }}
             {{ form.relance(value=candidacy.relance)}}

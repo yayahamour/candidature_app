@@ -3,8 +3,7 @@ from ast import Try
 from flask import render_template, redirect, url_for, flash, request
 from sqlalchemy import JSON, false
 from App import db, app
-from .forms import Login, AddUser, AddCandidacy, ModifyCandidacy, ModifyProfile, AddOffer, ModifyOffer , Stats, AddEvent
-
+from .forms import Login, AddUser, ModifyUser, AddCandidacy, ModifyCandidacy, ModifyProfile, AddOffer, ModifyOffer , Stats, AddEvent
 from datetime import date, datetime
 from .models import Users, Candidacy, Offer, bot, Events 
 from flask_login import login_user, logout_user, login_required, current_user
@@ -144,7 +143,7 @@ def modify_candidacy():
             candidacy.modified_date = form.modified_date.data
             candidacy.status = form.status.data
             candidacy.relance = form.relance.data
-            candidacy.date = form.modif_date.data
+            candidacy.date = form.date.data
             candidacy.modified_quand = datetime.now()
             db.session.commit()
 
@@ -212,18 +211,6 @@ def add_offer():
         return redirect(url_for('offres_page'))
     return render_template('add_offer.html', form=form)
 
-@app.route('/add_to_candidacy')
-def add_to_candidacy():
-    """[Add an offer to a candadicies list]"""
-
-    # form = AddOffer()
-    # if form.validate_on_submit():
-    #     Candidacy(user_id = current_user.id, plateforme = "Offre de l'appli", poste = form.poste.data, entreprise = form.entreprise.data, activite = form.activite.data, type = form.type.data, lieu = form.lieu.data, contact_full_name = form.contact_full_name.data, contact_email = form.contact_email.data, contact_mobilephone = form.contact_mobilephone.data).save_to_db()
-    #     flash('Nouvelle Candidature ajoutée ', category='secondary')
-    #     return redirect(url_for('board_page'))
-    # return render_template('add_candidacy.html', form=form)
-    return 'En cours'
-
 
 @app.route('/modify_offer', methods=['GET', 'POST'])
 @login_required
@@ -267,13 +254,6 @@ def delete_offer():
     return redirect(url_for('offres_page'))
 
 
-
-@app.route('/calendar')
-def calendar_page():
-    """[Show the calendar]"""
-
-    return render_template('calendar.html')
-
 @app.route('/profil')
 def profil_page():
     """[Show some elements of the user]"""
@@ -285,7 +265,6 @@ def gestion_page():
     """[To add/modify/delete profiles]"""
 
     userlist_attributs = ['Nom', 'Prénom', 'Email', 'Téléphone', 'promotion', 'année', 'Droits']
-
     if (current_user.is_admin == True):  
         return render_template('gestion.html', lenght = len(userlist_attributs), title = userlist_attributs, user_list=Users.get_all())
 
@@ -299,7 +278,7 @@ def add_user():
 
     form = AddUser()
     if form.validate_on_submit():
-        Users(last_name = form.last_name.data, first_name = form.first_name.data, email_address = form.email_address.data, password_hash = form.password_hash.data, telephone_number = form.telephone_number.data, promo = form.promo.data, year = form.year.data, curriculum = form.curriculum.data, is_admin = form.is_admin.data).save_to_db()
+        Users(last_name = form.last_name.data, first_name = form.first_name.data, email_address = form.email_address.data, password_hash = generate_password_hash(form.password_hash.data, method='sha256'), telephone_number = form.telephone_number.data, promo = form.promo.data, year = form.year.data, curriculum = form.curriculum.data, is_admin = form.is_admin.data).save_to_db()
         flash('Nouvel utilisateur ajouté ', category='secondary')
         return redirect(url_for('gestion_page'))
     return render_template('add_user.html', form=form)
@@ -313,32 +292,36 @@ def modify_user():
         [str]: [modify candidacy code page]
     """
     form = ModifyUser()
-    candidacy_id = request.args.get('id')
-    candidacy = Users.query.filter_by(id = candidacy_id).first()
+    user_id = request.args.get('id')
+    user = Users.query.filter_by(id = user_id).first()
     
     if form.validate_on_submit():
         
         if user:
-            user.plateforme = form.plateforme.data
-            user.poste = form.poste.data
-            user.entreprise = form.entreprise.data
-            user.activite = form.activite.data
-            user.type = form.type.data
-            user.lieu = form.lieu.data
-            user.contact_full_name = form.contact_full_name.data
-            user.contact_email = form.contact_email.data
-            user.contact_mobilephone = form.contact_mobilephone.data
-            user.status = form.status.data
-            user.relance = form.relance.data
-            user.date = form.modif_date.data
+            user.last_name = form.last_name.data
+            user.first_name = form.first_name.data
+            user.email_address = form.email_address.data
+            user.telephone_number = form.telephone_number.data
+            user.promo = form.promo.data
+            user.year = form.year.data
+            user.curriculum = form.curriculum.data
+            user.is_admin = form.is_admin.data
             db.session.commit()
 
-            flash(f"La candidature a bien été modifiée",category="secondary")
-            return redirect(url_for('board_page'))
+            flash(f"L'utilisateur' a bien été modifié",category="secondary")
+            return redirect(url_for('gestion_page'))
         else:
             flash('Something goes wrong',category="danger")
-    return render_template('modify_user.html', form=form , user=user.json())
+    return render_template('modify_user.html', form=form , user=user)
 
+@app.route('/delete_user')
+def delete_user():
+    """[Allow to delete candidacy in the BDD with the id and redirect to board page]"""
+
+    user_id = request.args.get('id')
+    Users.query.filter_by(id=user_id).first().delete_from_db()
+    flash("Utilisateur supprimé avec succès",category="secondary")
+    return redirect(url_for('gestion_page'))
 
 
 @app.route('/callback', methods=['POST', 'GET'])
