@@ -5,7 +5,7 @@ from .models import Users, Candidacy
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
-from .tools import notif_relance , math_relance, count_alertes,count_candidature
+from .tools import count_candidature_ok, notif_relance , math_relance, count_alertes,count_candidature, count_candidature_total,count_candidature_ok
 
 @app.route('/')
 @app.route('/home')
@@ -153,6 +153,4 @@ def notification():
 
 @app.route('/profile') 
 def profile_page():
-   
-    
-    return render_template('profile.html',count_candidature = count_candidature())
+    return render_template('profile.html', nbr_candidature = count_candidature(), nbr_candidature_total = count_candidature_total(), nbr_candidature_ok = count_candidature_ok())

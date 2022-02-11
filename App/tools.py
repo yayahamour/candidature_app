@@ -88,9 +88,19 @@ def count_candidature():
 
 def count_candidature_total():
     nbr_candidature_total = 0
-    total_user = Candidacy.get_all_in_list_with_user_name(current_user.id)
+    total_user = Candidacy.get_all_in_list_with_user_name()
     for i in total_user :
         if i['status'] == 'En cours':
             nbr_candidature_total += 1
     return nbr_candidature_total
+
+
+
+def count_candidature_ok():
+    nbr_candidature_ok = 0
+    total_user = Candidacy.get_all_in_list_with_user_name()
+    for i in total_user :
+        if i['status'] == 'Accepté':
+            nbr_candidature_ok += 1
+    return nbr_candidature_ok
 
