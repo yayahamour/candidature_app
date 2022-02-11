@@ -9,7 +9,6 @@ Flask-WTF
 Flask-RESTful
 Flask-JWT
 uwsgi
-psycopg2
 greenlet
 itsdangerous
 Jinja2
