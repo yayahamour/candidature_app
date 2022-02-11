@@ -29,3 +29,4 @@ tenacity
 Werkzeug
 WTForms
 wtforms-html5
+psycopg2
