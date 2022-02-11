@@ -17,7 +17,7 @@ Profile
 
 
 
-  <section class = "">
+ <!-- <section class = "box">
       <h3>Apprenant</h3>
       <div id= "apprenant">
           <p id= "nbr_cand">{{nbr_candidature}}</p>
@@ -31,11 +31,29 @@ Profile
       <div id="cand_ok">
         <p id="stats_ok">{{nbr_candidature_ok}}</p>
       </div>
-      <!--<div>
+      <div>
         <img class="sac" src="static/sac.png" alt="img_sac">
-      </div> -->
-  </section>
+      </div> 
+  </section> -->
 
+  <div class="container flex">
+    <div class="box flex">
+        <h3>Apprenant</h3>
+        <p id= "compteur">{{nbr_candidature}}</p>
+    </div>
+
+    <div class="box flex">
+        <h3>Promo</h3>
+        <p id= "compteur">{{nbr_candidature_total}}</p>
+    </div>
+
+    <div class="box flex">
+        <h3>Candidature acceptée</h3>
+        <p id= "compteur">{{nbr_candidature_ok}}</p>
+
+    </div>
+
+</div>
 {% endblock %}
   
 </body>

@@ -60,42 +60,13 @@ Board
       </tbody>
     </table>
   </div>
-  {% if current_user.is_admin == False %}
+  <!--{% if current_user.is_admin == False %}-->
   <div>
       <button class="btn btn-lg btn-dark mt-4 d-block" id="button">
         <a href="{{ url_for('add_candidature') }}">Ajouter candidature</a>
       </button>
-
-     <!--TEST a supprimer
-
-      <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-       
-    </head>
-      
-    <body style="text-align: center;">
-     
-      
-        
-      
-        <p>
-            Button Clicked <span 
-            id="display">0</span> Times
-        </p>
-      
-        <script type="text/javascript">
-            var count = 0;
-            var btn = document.getElementById("button");
-            var disp = document.getElementById("display");
-      
-            btn.onclick = function () {
-                count++;
-                disp.innerHTML = count;
-            }
-        </script>
-    </body> 
-  -->
+ <!--{% endif %}--> 
   </div>
-  {% endif %}
+ {% endfor %}
 </section>
 {% endblock %}

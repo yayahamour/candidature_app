@@ -103,6 +103,16 @@ a, a:hover{
   border : 10px;
 }
 
+#notif {
+  background-color : rgb(75, 75, 75);
+  height: 23px;
+  width: 23px;
+  text-align: center;
+  border-radius: 3px;
+  color: red ;
+}
+
+/*
 
   h3{
     position: absolute;
@@ -127,21 +137,13 @@ a, a:hover{
     font-size: 50px;
   }
 
-#notif {
-  background-color : rgb(75, 75, 75);
-  height: 23px;
-  width: 23px;
-  text-align: center;
-  border-radius: 3px;
-  color: red ;
-}
 
-.cand_stats{
+.cand-stats{
   position: absolute;
   width: 689px;
-  height: 784px;
+  height: 700px;
   left: 479px;
-  top: 240px;
+  top: 250px;
   background: #FFFFFF;
 }
 
@@ -199,3 +201,66 @@ top: 20px;
 .sac{
 size:  80px;
 }
+*/
+
+*
+{
+  margin: 0;
+  padding: 0;
+}
+
+.container
+{
+  border: solid black 0px;
+  border-radius: 10px;
+  min-height: 100px;
+  height: auto;
+  width: auto;
+  min-width: 100px;
+  flex-wrap: wrap;
+  gap: 5px;
+  /* dit a ses enfant de modifier la marge de 20px entre eux */
+}
+
+.flex
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#compteur
+{
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 8px solid rgba(0, 0, 0, .1);
+  padding: 170px  ;
+  font-size: 40px;
+  background-color: rgba(41, 39, 39, 0.144);
+  display: flex;
+  align-content: center;
+  color: white;
+}
+
+.box    
+{
+    width: 550px;
+    height: 500px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, .2);
+    padding: 20px;
+    flex-direction: row;
+   
+}
+
+h3
+{
+    color:rgb(250, 246, 246) ;
+    align-self:flex-start;
+    font-family:sans-serif;
+
+}
+
+
+
