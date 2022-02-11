@@ -35,7 +35,7 @@ mail = Mail(app)
 
 from App import routes
 from App import models
-
+from .routes import *
 
 
 #models.init_db()
