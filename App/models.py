@@ -321,10 +321,6 @@ def init_db():
 
     #db.session.add( )
 
-    Users(last_name="ben", first_name= "charles", email_address= "cb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=True).save_to_db() 
-    Users(last_name="beniac", first_name= "cha", email_address= "bb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=False).save_to_db()
-    Candidacy(user_id = 2, entreprise = "facebook", contact_full_name = "mz", contact_email="mz@facebook.fb").save_to_db()
-    Candidacy(user_id = 2, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com").save_to_db()
     Events(user_id=1, event_title='Test', start_date='08/02/2022',
            end_date='09/02/2022', url='').save_to_db()
 
@@ -349,13 +345,7 @@ def init_db():
             }
         Users(**user).save_to_db()
     
-
-    Candidacy(user_id = 2, entreprise = "facebook", contact_full_name = "mz", contact_email="mz@facebook.fb").save_to_db()
-    Candidacy(user_id = 2, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
-    Candidacy(user_id = 3, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
-    Candidacy(user_id = 4, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
-    Candidacy(user_id = 5, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
-    Candidacy(user_id = 6, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()    
+  
     lg.warning('Database initialized!')
 
     for i in data[:6]:
