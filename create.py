@@ -16,7 +16,7 @@ class Users(db.Model):
         UserMixin: Generates an easy way to provide a current_user
 
     """
-    __tablename__ = 'users'
+    __tablename__ = 'Users'
     id = db.Column(db.Integer(), primary_key=True, nullable=False, unique=True)
     last_name = db.Column(db.String(length=30), nullable=False)
     first_name = db.Column(db.String(length=30), nullable=False)
