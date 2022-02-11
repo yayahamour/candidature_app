@@ -29,4 +29,5 @@ tenacity
 Werkzeug
 WTForms
 wtforms-html5
+PyPI
 psycopg2
