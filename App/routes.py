@@ -5,11 +5,15 @@ from .models import Users, Candidacy, Offer
 from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile, AddOffer, ModifyOffer
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
+<<<<<<< HEAD
 import sqlite3
 import pandas as pd
 import plotly
 import plotly.express as px
 import json
+=======
+from .tools import count_candidature_ok, notif_relance , math_relance, count_alertes,count_candidature, count_candidature_total,count_candidature_ok
+>>>>>>> michelle
 
 @app.route('/')
 @app.route('/welcome')
@@ -56,9 +60,15 @@ def board_page():
     Returns:
         [str]: [board page code different if the user is admin or not]
     """
+<<<<<<< HEAD
     admin_candidacy_attributs = ["Apprenant",'plateforme', 'poste','entreprise', 'activite', 'type', 'lieu', 'Nom du contact','Email du contact', 'Téléphone du contact' ,'date','statut']
     usercandidacy_attributs = ['plateforme','poste','entreprise', 'activite', 'type', 'lieu','Nom du contact','Email du contact', 'Téléphone du contact' ,'date','statut']
 
+=======
+    admin_candidacy_attributs = ["user_fisrt_name",'entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'date','status']
+    usercandidacy_attributs = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'date','status']
+    app.jinja_env.globals.update(alertes = count_alertes())
+>>>>>>> michelle
 
     if (current_user.is_admin == True):  
         return render_template('board.html', lenght = len(admin_candidacy_attributs), title = admin_candidacy_attributs, user_candidacy=Candidacy.get_all_in_list_with_user_name())
@@ -120,7 +130,7 @@ def modify_candidacy():
     form = ModifyCandidacy()
     candidacy_id = request.args.get('id')
     candidacy = Candidacy.query.filter_by(id = candidacy_id).first()
-
+    
     if form.validate_on_submit():
         
         if candidacy:
@@ -134,6 +144,8 @@ def modify_candidacy():
             candidacy.contact_email = form.contact_email.data
             candidacy.contact_mobilephone = form.contact_mobilephone.data
             candidacy.status = form.status.data
+            candidacy.relance = form.relance.data
+            candidacy.date = form.modif_date.data
             db.session.commit()
 
             flash(f"La candidature a bien été modifiée",category="success")
@@ -151,6 +163,7 @@ def delete_candidacy():
     flash("Candidature supprimée avec succès",category="success")
     return redirect(url_for('board_page'))
 
+<<<<<<< HEAD
 @app.route('/visualisation')
 def visualisation_page():
     """[Show differents visualizations]"""
@@ -275,3 +288,22 @@ def gestion_page():
 
     return render_template('gestion.html')
 
+=======
+@app.route('/relance') 
+def notification():
+    header = ['entreprise','contact_full_name','contact_email', 'contact_mobilephone' ,'Dernière relance', 'A relancer dès le', 'A été relancé']
+    body = ['entreprise', 'contact_full_name', 'contact_email', 'contact_mobilephone' , 'date', 'relance' ]
+    
+
+    notif_relance(count_alertes())
+    
+    app.jinja_env.globals.update(alertes = count_alertes())
+    
+    return render_template('relance.html', title = header, user_candidacy=Candidacy.find_by_user_id(current_user.id), math_relance=math_relance, body = body)
+
+
+
+@app.route('/profile') 
+def profile_page():
+    return render_template('profile.html', nbr_candidature = count_candidature(), nbr_candidature_total = count_candidature_total(), nbr_candidature_ok = count_candidature_ok())
+>>>>>>> michelle

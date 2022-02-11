@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField,EmailField,SubmitField,StringField
+from wtforms import PasswordField,EmailField,SubmitField,StringField, BooleanField
 from wtforms.validators import Length,DataRequired,Email,EqualTo,ValidationError
-from wtforms.fields import SelectField
+from wtforms.fields import DateField, SelectField
 from .models import Users
 
 class Login(FlaskForm):
@@ -77,5 +77,3 @@ class ModifyOffer(FlaskForm):
     contact_full_name = StringField(label='Nom du contact', validators=[DataRequired()])
     contact_email = StringField(label='Email du contact', validators=[DataRequired()])
     contact_mobilephone = StringField(label='Téléphone du contact')
-    
-    submit = SubmitField(label="Valider")

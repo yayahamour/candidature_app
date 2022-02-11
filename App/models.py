@@ -80,6 +80,7 @@ class Candidacy(db.Model):
     contact_mobilephone = db.Column(db.String(length=50), nullable=True)
     date = db.Column(db.String(), default=datetime.date.today())
     status = db.Column(db.String(), nullable=True, default="En cours")
+    relance = db.Column(db.Boolean,nullable=False, default=False)
 
     def __repr__(self):
         return f' Candidat id : {self.user_id}'
@@ -98,7 +99,8 @@ class Candidacy(db.Model):
             'contact_email': self.contact_email,
             'contact_mobilephone': self.contact_mobilephone,
             'date': self.date,
-            'status': self.status
+            'status': self.status,
+            'relance': self.relance
             }
 
 
@@ -123,6 +125,7 @@ class Candidacy(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+        
 
 class Offer(db.Model):
     """Create a table Offer on the candidature database
@@ -192,7 +195,6 @@ class Offer(db.Model):
 def init_db():
     db.drop_all()
     db.create_all()
-
     
     # Insert all users from  "static/liste_apprenants.csv"
     with open("App/static/liste_apprenants.csv", newline='') as f:

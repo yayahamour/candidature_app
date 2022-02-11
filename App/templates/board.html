@@ -27,10 +27,17 @@ Board
       <tbody>
         {% for candidacy in user_candidacy %}
         <tr>
+<<<<<<< HEAD
           {% for info in candidacy.keys() %}
             {%if info not in ['id', 'user_id']%}
               <td>{{ candidacy[info] }}</td>
             {%endif %}
+=======
+          {% for info in title %}
+
+          <td>  {{ candidacy[info]}}  </td>
+
+>>>>>>> michelle
           {% endfor %}
           {% if current_user.is_admin == False %}
           <td>
@@ -58,6 +65,36 @@ Board
       <button class="btn btn-lg btn-dark mt-4 d-block" id="button">
         <a href="{{ url_for('add_candidature') }}">Ajouter candidature</a>
       </button>
+
+     <!--TEST a supprimer
+
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+       
+    </head>
+      
+    <body style="text-align: center;">
+     
+      
+        
+      
+        <p>
+            Button Clicked <span 
+            id="display">0</span> Times
+        </p>
+      
+        <script type="text/javascript">
+            var count = 0;
+            var btn = document.getElementById("button");
+            var disp = document.getElementById("display");
+      
+            btn.onclick = function () {
+                count++;
+                disp.innerHTML = count;
+            }
+        </script>
+    </body> 
+  -->
   </div>
   {% endif %}
 </section>

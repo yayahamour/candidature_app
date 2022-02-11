@@ -1,0 +1,99 @@
+#import datetime 
+
+
+
+
+def diff_date(date_to_compare = "2022-01-15"):
+    date_today = str(datetime.date.today())
+    annee_1 = date_today[0:4]
+    mois_1 = date_today[5:7]
+    jours_1 = date_today[8:]
+    
+    annee_2 = date_to_compare[0:4]
+    mois_2 = date_to_compare[5:7]
+    jours_2 = date_to_compare[8:]
+    if (annee_1 >= annee_2 ) and (mois_1 > mois_2 ) :
+        return True
+    elif (annee_1 >= annee_2 ) and (mois_1 >= mois_2) and (jours_1 > jours_2):
+        return True 
+    else:
+        return False
+
+
+
+nbr_candidature = []
+
+def nbr_cand():
+    if nbr_candidature 
+
+    <!DOCTYPE HTML>
+<html>
+  
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Increment count when button is clicked</title>
+</head>
+  
+<body style="text-align: center;">
+    <h1 style="color: green;">
+        GeeksforGeeks
+    </h1>
+  
+    <button id="btn">Click Here!</button>
+  
+    <p>
+        Button Clicked <span 
+        id="display">0</span> Times
+    </p>
+  
+    <script type="text/javascript">
+        var count = 0;
+        var btn = document.getElementById("btn");
+        var disp = document.getElementById("display");
+  
+        btn.onclick = function () {
+            count++;
+            disp.innerHTML = count;
+        }
+    </script>
+</body>
+  
+</html>
+
+
+
+{% block content %}
+<!DOCTYPE HTML>
+<html>
+  
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Increment count when button is clicked</title>
+</head>
+  
+<body style="text-align: center;">
+    <h1 style="color: green;">
+        GeeksforGeeks
+    </h1>
+  
+    <button id="btn">Click Here!</button>
+  
+    <p>
+        Button Clicked <span 
+        id="display">0</span> Times
+    </p>
+  
+    <script type="text/javascript">
+        var count = 0;
+        var btn = document.getElementById("button");
+        var disp = document.getElementById("display");
+  
+        btn.onclick = function () {
+            count++;
+            disp.innerHTML = count;
+        }
+    </script>
+</body>
+  
+</html>
+{% endblock %}

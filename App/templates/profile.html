@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+Profile
+{% endblock %}
+
+{% block content %}
+<body>
+  <section class="row col-8 mx-auto center justify-content-center border"> 
+    <h2 class="text-primary my-4">Nombre de candidature en cours</h2>
+      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <option selected>par</option>
+        <option value="1">Semaine</option>
+        <option value="2">Mois</option>
+      </select> 
+  </section>
+
+
+
+  <section class = "">
+      <h3>Apprenant</h3>
+      <div id= "apprenant">
+          <p id= "nbr_cand">{{nbr_candidature}}</p>
+
+      </div>
+      <h4>Promo</h4>
+      <div id="promo">
+          <p>{{nbr_candidature_total}}</p>
+      </div>
+      <h5>Candidature accepté</h5>
+      <div id="cand_ok">
+        <p id="stats_ok">{{nbr_candidature_ok}}</p>
+      </div>
+      <!--<div>
+        <img class="sac" src="static/sac.png" alt="img_sac">
+      </div> -->
+  </section>
+
+{% endblock %}
+  
+</body>

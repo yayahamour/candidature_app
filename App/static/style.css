@@ -102,3 +102,100 @@ a, a:hover{
   padding: 3px 5px 3px 5px;
   border : 10px;
 }
+
+
+  h3{
+    position: absolute;
+    left: 1000px;
+    top: 350px;
+    color: #FFEBCD;
+    font-size: 50px;
+  }
+
+  h4{
+    position: absolute;
+    left: 1050px;
+    top: 725px;
+    color: #FFEBCD;    
+    font-size: 50px;
+  }
+  h5{
+    position: absolute;
+    left: 600px;
+    top: 520px;
+    color: #FFEBCD;    
+    font-size: 50px;
+  }
+
+#notif {
+  background-color : rgb(75, 75, 75);
+  height: 23px;
+  width: 23px;
+  text-align: center;
+  border-radius: 3px;
+  color: red ;
+}
+
+.cand_stats{
+  position: absolute;
+  width: 689px;
+  height: 784px;
+  left: 479px;
+  top: 240px;
+  background: #FFFFFF;
+}
+
+#apprenant{
+  height: 300px;
+  width: 300px;
+  left: 1300px;
+  top: -100px;
+  border-radius: 150px;
+  background-color: #FFEBCD;
+  padding: 130px;
+  margin-top: 120px;
+  font-size: 90px;
+  color: #B22222 ;
+  justify-content: left;
+  position: relative;
+  align-self: center;
+}
+
+#promo{
+  height: 300px;
+  width: 300px;
+  left: 1300px;
+  top: -50px;
+  border-radius: 150px;    
+  background-color: #FFEBCD;
+  padding: 115px;
+  font-size: 90px;
+  color: #B22222;
+  margin-top: 10px;    
+  position: relative;
+}
+
+#cand_ok{
+  height: 400px;
+  width: 400px;
+  left: 100px;
+  top: -650px;
+  border-radius: 2000px;    
+  background-color: #FFEBCD;
+  padding: 155px;
+  font-size: 100px;
+  color: #B22222;
+  margin-top: 80px;    
+  position: relative;
+}
+
+#stats_ok{
+justify-content: left;
+align-self: center;  
+margin: 30px; 
+position: relative; 
+top: 20px;
+}
+.sac{
+size:  80px;
+}

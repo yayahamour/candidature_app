@@ -13,4 +13,6 @@ login_manager.login_message_category = "info"
 from App import routes
 from App import models
 
+
+
 #models.init_db()
