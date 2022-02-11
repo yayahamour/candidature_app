@@ -1,4 +1,5 @@
 
+from pickle import TRUE
 from App import db,login_manager, mail , app
 import datetime 
 from flask_login import UserMixin # allow to set variable is_active=True and to stay connected
@@ -69,7 +70,7 @@ class Users(db.Model,UserMixin):
     password_hash = db.Column(db.String(length=200), nullable=False)
     telephone_number = db.Column(db.String(length=10), nullable=True)
     promo = db.Column(db.String(length=30), nullable=True)
-    year = db.Column(db.String(length=20), nullable=False)
+    year = db.Column(db.String(length=20), nullable=True)
     curriculum = db.Column(db.String(), nullable=True)
     is_admin = db.Column(db.Boolean(), nullable=False, default=False)
 
