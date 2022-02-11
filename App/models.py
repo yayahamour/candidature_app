@@ -312,54 +312,11 @@ class Events(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
-# Function to create db and populate it
-
-
+        
 def init_db():
+    db.session.commit()
     db.drop_all()
     db.create_all()
 
-    #db.session.add( )
-
-    Events(user_id=1, event_title='Test', start_date='08/02/2022',
-           end_date='09/02/2022', url='').save_to_db()
-
-
-
-    # Insert all users from  "static/liste_apprenants.csv"
-    with open("App/static/liste_apprenants.csv", newline='') as f:
-        reader = csv.reader(f)
-        data = list(reader)
-
-   
-    for i in data[6:]:
-        user = {
-                'email_address' : i[0],
-                'first_name' : i[1],
-                'last_name' : i[2],
-                'password_hash' : generate_password_hash(i[3], method='sha256'),
-                'promo' : "Dev Ia",
-                'year': "2022",
-                'curriculum' : "",
-                'is_admin' : True if i[4] == "TRUE" else False
-            }
-        Users(**user).save_to_db()
+    Users(last_name="ben", first_name= "charles", email_address= "cb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=True).save_to_db()
     
-  
-    lg.warning('Database initialized!')
-
-    for i in data[:6]:
-        user = {
-                'email_address' : i[0],
-                'first_name' : i[1],
-                'last_name' : i[2],
-                'password_hash' : generate_password_hash(i[3], method='sha256'),
-                'promo' : "Dev java",
-                'year': "2022",
-                'curriculum' : "",
-                'is_admin' : True if i[4] == "TRUE" else False
-            }
-        Users(**user).save_to_db()
-       
-    lg.warning('Database initialized!')
-
