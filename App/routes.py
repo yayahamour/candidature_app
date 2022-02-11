@@ -24,6 +24,7 @@ def welcome_page():
 
     return render_template('welcome.html')
 
+
 @app.route('/home')
 def home_page():
     """[Allow to generate the template of home.html on home path]
@@ -50,9 +51,6 @@ def login_page():
         else:
             flash('Adresse email ou mot de passe invalide',category="danger")
     return render_template('login.html',form=form)
-
-
-
 
 @app.route('/board', methods=['GET','POST'])
 @login_required
@@ -303,43 +301,6 @@ def add_user():
         flash('Nouvel utilisateur ajouté ', category='secondary')
         return redirect(url_for('gestion_page'))
     return render_template('add_user.html', form=form)
-
-@app.route('/modify_user', methods=['GET', 'POST'])
-@login_required
-def modify_user():
-    """[Allow to generate the template of modify_candidacy.html on modify_candidacy path to modify candidacy in the BDD if validate and redirect to the board page when finish]
-
-    Returns:
-        [str]: [modify candidacy code page]
-    """
-    form = ModifyUser()
-    candidacy_id = request.args.get('id')
-    candidacy = Users.query.filter_by(id = candidacy_id).first()
-    
-    if form.validate_on_submit():
-        
-        if user:
-            user.plateforme = form.plateforme.data
-            user.poste = form.poste.data
-            user.entreprise = form.entreprise.data
-            user.activite = form.activite.data
-            user.type = form.type.data
-            user.lieu = form.lieu.data
-            user.contact_full_name = form.contact_full_name.data
-            user.contact_email = form.contact_email.data
-            user.contact_mobilephone = form.contact_mobilephone.data
-            user.status = form.status.data
-            user.relance = form.relance.data
-            user.date = form.modif_date.data
-            db.session.commit()
-
-            flash(f"La candidature a bien été modifiée",category="secondary")
-            return redirect(url_for('board_page'))
-        else:
-            flash('Something goes wrong',category="danger")
-    return render_template('modify_user.html', form=form , user=user.json())
-
-
 
 @app.route('/callback', methods=['POST', 'GET'])
 def cb():
