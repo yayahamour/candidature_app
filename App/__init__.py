@@ -10,7 +10,7 @@ app.config.from_object('config')
 app.config['SECRET_KEY']='secret'
 app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get("DATABASE_URL")
 db=SQLAlchemy(app)
-db.init_app()
+db.init_app(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "login_page"
 login_manager.login_message_category = "info"
