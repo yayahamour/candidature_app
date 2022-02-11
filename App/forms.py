@@ -21,10 +21,10 @@ class AddUser(FlaskForm):
     first_name = StringField(label='Prénom', validators=[DataRequired()])
     email_address = StringField(label='Email', validators=[DataRequired()])
     password_hash = StringField(label='Mot de passe', validators=[DataRequired()])
-    telephone_number = StringField(label='Téléphone', validators=[DataRequired()])
-    promo = StringField(label='Promotion', validators=[DataRequired()])
-    year = StringField(label='Année', validators=[DataRequired()])
-    curriculum = StringField(label='Lien du CV', validators=[DataRequired()])
+    telephone_number = StringField(label='Téléphone')
+    promo = StringField(label='Promotion')
+    year = StringField(label='Année')
+    curriculum = StringField(label='Lien du CV')
     is_admin = BooleanField(' Droits administrateur : ')
     submit = SubmitField(label='Ajouter')
 
@@ -33,23 +33,23 @@ class ModifyUser(FlaskForm):
     last_name = StringField(label='Nom', validators=[DataRequired()])
     first_name = StringField(label='Prénom', validators=[DataRequired()])
     email_address = StringField(label='Email', validators=[DataRequired()])
-    telephone_number = StringField(label='Téléphone', validators=[DataRequired()])
-    promo = StringField(label='Promotion', validators=[DataRequired()])
-    year = StringField(label='Année', validators=[DataRequired()])
-    curriculum = StringField(label='CV', validators=[DataRequired()])
+    telephone_number = StringField(label='Téléphone')
+    promo = StringField(label='Promotion')
+    year = StringField(label='Année')
+    curriculum = StringField(label='CV')
     is_admin = BooleanField(' Droits administrateur : ')
     submit = SubmitField(label="Valider")
 class AddCandidacy(FlaskForm):
     """[Form to add candidacy]
     """
-    plateforme = StringField(label='Plateforme', validators=[DataRequired()])
-    poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer'])
+    plateforme = StringField(label='Plateforme(Indeed, spontanée...)', validators=[DataRequired()])
+    poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer', 'Dev Ia', 'Dev Python'])
     entreprise = StringField(label='Entreprise', validators=[DataRequired()])
     activite = SelectField(label='Activité', validators=[DataRequired()], choices = ['Industrie', 'Marketing','Medecine', 'Autre'])
     type = SelectField(label='Type', validators=[DataRequired()], choices = ['Cabinet Conseil', 'Grand Groupe','Start-up'])
     lieu = StringField(label='Lieu', validators=[DataRequired()])
-    contact_full_name = StringField(label='Nom du contact', validators=[DataRequired()])
-    contact_email = StringField(label='Email du contact', validators=[DataRequired()])
+    contact_full_name = StringField(label='Nom du contact')
+    contact_email = StringField(label='Email du contact')
     contact_mobilephone = StringField(label='Téléphone du contact')
     submit = SubmitField(label='Ajouter')
 
@@ -66,14 +66,14 @@ class ModifyProfile(FlaskForm):
 
 
 class ModifyCandidacy(FlaskForm):
-    plateforme = StringField(label='Plateforme', validators=[DataRequired()])
-    poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer'])
+    plateforme = StringField(label='Plateforme(Indeed, spontanée...)', validators=[DataRequired()])
+    poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer', 'Dev Ia', 'Dev Python'])
     entreprise = StringField(label='Entreprise', validators=[DataRequired()])
     activite = SelectField(label='Activité', validators=[DataRequired()], choices = ['Industrie', 'Marketing','Medecine', 'Autre'])
     type = SelectField(label='Type', validators=[DataRequired()], choices = ['Cabinet Conseil', 'Grand Groupe','Start-up'])
     lieu = StringField(label='Lieu', validators=[DataRequired()])
-    contact_full_name = StringField(label='Nom du contact', validators=[DataRequired()])
-    contact_email = StringField(label='Email du contact', validators=[DataRequired()])
+    contact_full_name = StringField(label='Nom du contact')
+    contact_email = StringField(label='Email du contact')
     contact_mobilephone = StringField(label='Téléphone du contact')
     status = SelectField(label='Statut', validators=[DataRequired()], choices = ['En cours', 'A été relancée',"En attente d'entretien", "Acceptée", "Refusée"])
     date = DateField('Date de création', format='%Y-%m-%d')
@@ -96,14 +96,14 @@ class AddEvent(FlaskForm):
 class AddOffer(FlaskForm):
     """[Form to add offer]
     """
-    lien = StringField(label="Lien de l'offre", validators=[DataRequired()])
-    poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer'])
+    lien = StringField(label="Lien de l'offre")
+    poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer', 'Dev Ia', 'Dev Python'])
     entreprise = StringField(label='Entreprise', validators=[DataRequired()])
     activite = SelectField(label='Activité', validators=[DataRequired()], choices = ['Industrie', 'Marketing','Medecine', 'Autre'])
     type = SelectField(label='Type', validators=[DataRequired()], choices = ['Cabinet Conseil', 'Grand Groupe','Start-up'])
     lieu = StringField(label='Lieu', validators=[DataRequired()])
-    contact_full_name = StringField(label='Nom du contact', validators=[DataRequired()])
-    contact_email = StringField(label='Email du contact', validators=[DataRequired()])
+    contact_full_name = StringField(label='Nom du contact')
+    contact_email = StringField(label='Email du contact')
     contact_mobilephone = StringField(label='Téléphone du contact')
     submit = SubmitField(label='Ajouter')
 
@@ -111,12 +111,12 @@ class ModifyOffer(FlaskForm):
     """[form to modify offer]
     """
 
-    contact_full_name = StringField(label='Nom du contact', validators=[DataRequired()])
-    contact_email = StringField(label='Email du contact', validators=[DataRequired()])
+    contact_full_name = StringField(label='Nom du contact')
+    contact_email = StringField(label='Email du contact')
     contact_mobilephone = StringField(label='Téléphone du contact')
     
-    lien = StringField(label="Lien de l'offre", validators=[DataRequired()])
-    poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer'])
+    lien = StringField(label="Lien de l'offre")
+    poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer', 'Dev Ia', 'Dev Python'])
     entreprise = StringField(label='Entreprise', validators=[DataRequired()])
     activite = SelectField(label='Activité', validators=[DataRequired()], choices = ['Industrie', 'Marketing','Medecine', 'Autre'])
     type = SelectField(label='Type', validators=[DataRequired()], choices = ['Cabinet Conseil', 'Grand Groupe','Start-up'])
