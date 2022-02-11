@@ -70,6 +70,8 @@ class Users(db.Model,UserMixin):
     password_hash = db.Column(db.String(length=200), nullable=False)
     telephone_number = db.Column(db.String(length=10), nullable=True)
     promo = db.Column(db.String(length=30), nullable=True)
+    year = db.Column(db.String(length=20), nullable=False)
+    curriculum = db.Column(db.String(), nullable=True)
     is_admin = db.Column(db.Boolean(), nullable=False, default=False)
 
     def __repr__(self):
@@ -82,12 +84,21 @@ class Users(db.Model,UserMixin):
             'email_address': self.email_address,
             'telephone_number': self.telephone_number,
             'promo' : self.promo,
+            'year': self.year,
+            'curriculum': self.curriculum,
             'is_admin': self.is_admin
         }
 
     @classmethod
     def find_by_title(cls, user_id):
         return cls.query.filter_by(id=user_id).first()
+
+    @classmethod
+    def get_all(cls):
+        user_list=[]
+        for info in cls.query.all():
+            user_list.append(info.json())
+        return user_list
 
     @classmethod
     def get_all_learner(cls):
@@ -123,7 +134,7 @@ class Candidacy(db.Model):
     activite = db.Column(db.String(), nullable=True)
     type = db.Column(db.String(), nullable=True)
     lieu = db.Column(db.String(), nullable=True)
-    contact_full_name = db.Column(db.String(length=50), nullable=False)
+    contact_full_name = db.Column(db.String(length=50), nullable=True)
     contact_email = db.Column(db.String(length=50), nullable=True)
     contact_mobilephone = db.Column(db.String(length=50), nullable=True)
     date = db.Column(db.String(), default=datetime.date.today())
@@ -229,6 +240,13 @@ class Offer(db.Model):
         return jsonify(offer_list)
 
     @classmethod
+    def get_all(cls):
+        offer_list=[]
+        for offer in cls.query.all():
+            offer_list.append(offer.json())
+        return offer_list
+
+    @classmethod
     def get_all_in_list_with_user_name(cls):
         offer_list=[]
         for offer in cls.query.join(Users).with_entities(Users.first_name, cls.lien, cls.poste, cls.entreprise, cls.activite, cls.type, cls.lieu,  cls.contact_full_name, cls.contact_email, cls.contact_mobilephone, cls.date).all():
@@ -300,6 +318,7 @@ class Events(db.Model):
 def init_db():
     db.drop_all()
     db.create_all()
+
     #db.session.add( )
 
     Users(last_name="ben", first_name= "charles", email_address= "cb@gmail.com", password_hash= generate_password_hash("1234", method='sha256'), is_admin=True).save_to_db() 
@@ -308,6 +327,8 @@ def init_db():
     Candidacy(user_id = 2, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com").save_to_db()
     Events(user_id=1, event_title='Test', start_date='08/02/2022',
            end_date='09/02/2022', url='').save_to_db()
+
+
 
     # Insert all users from  "static/liste_apprenants.csv"
     with open("App/static/liste_apprenants.csv", newline='') as f:
@@ -322,10 +343,13 @@ def init_db():
                 'last_name' : i[2],
                 'password_hash' : generate_password_hash(i[3], method='sha256'),
                 'promo' : "Dev Ia",
+                'year': "2022",
+                'curriculum' : "",
                 'is_admin' : True if i[4] == "TRUE" else False
             }
         Users(**user).save_to_db()
     
+
     Candidacy(user_id = 2, entreprise = "facebook", contact_full_name = "mz", contact_email="mz@facebook.fb").save_to_db()
     Candidacy(user_id = 2, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
     Candidacy(user_id = 3, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
@@ -333,3 +357,19 @@ def init_db():
     Candidacy(user_id = 5, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()
     Candidacy(user_id = 6, entreprise = "google", contact_full_name = "lp", contact_email="lp@gmail.com", status="Validée").save_to_db()    
     lg.warning('Database initialized!')
+
+    for i in data[:6]:
+        user = {
+                'email_address' : i[0],
+                'first_name' : i[1],
+                'last_name' : i[2],
+                'password_hash' : generate_password_hash(i[3], method='sha256'),
+                'promo' : "Dev java",
+                'year': "2022",
+                'curriculum' : "",
+                'is_admin' : True if i[4] == "TRUE" else False
+            }
+        Users(**user).save_to_db()
+       
+    lg.warning('Database initialized!')
+

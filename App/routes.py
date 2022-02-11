@@ -3,10 +3,10 @@ from ast import Try
 from flask import render_template, redirect, url_for, flash, request
 from sqlalchemy import JSON, false
 from App import db, app
-from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile
+from .forms import Login, AddUser, ModifyUser, AddCandidacy, ModifyCandidacy, ModifyProfile, AddOffer, ModifyOffer , Stats, AddEvent
+
 from datetime import date, datetime
-from .models import Users, Candidacy, Offer, bot , Events
-from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile, AddOffer, ModifyOffer , Stats, AddEvent
+from .models import Users, Candidacy, Offer, bot, Events 
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
@@ -17,18 +17,21 @@ import json
 import numpy as np
 from .tools import math_relance, count_alertes, notif_relance
 
-
 @app.route('/')
-@app.route('/home')
 @app.route('/welcome')
 def welcome_page():
+    """[Page for visitors before login]"""
+
+    return render_template('welcome.html')
+
+@app.route('/home')
+def home_page():
     """[Allow to generate the template of home.html on home path]
 
     Returns:
         [str]: [home page code]
     """
     return render_template('home.html')
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
@@ -42,15 +45,16 @@ def login_page():
         user = Users.query.filter_by(email_address=form.email.data).first()
         if user and check_password_hash(user.password_hash, form.password.data):
             login_user(user)
-            flash(
-                f"Vous êtes connecté en tant que : {user.first_name} {user.last_name}", category="success")
+            flash(f"Vous êtes connecté en tant que : {user.first_name} {user.last_name} - promotion : {user.promo} {user.year}",category="secondary")
             return redirect(url_for('board_page'))
         else:
-            flash('Adresse email ou mot de passe invalide', category="danger")
-    return render_template('login.html', form=form)
+            flash('Adresse email ou mot de passe invalide',category="danger")
+    return render_template('login.html',form=form)
 
 
-@app.route('/board', methods=['GET', 'POST'])
+
+
+@app.route('/board', methods=['GET','POST'])
 @login_required
 def board_page():
     """[Allow to generate the template of board.html on board path, if user is authenticated else return on login]
@@ -59,16 +63,15 @@ def board_page():
         [str]: [board page code different if the user is admin or not]
     """
 
-
     admin_candidacy_attributs = ["Apprenant",'plateforme', 'poste','entreprise', 'activite', 'type', 'lieu', 'Nom du contact','Email du contact', 'Téléphone du contact' ,'date','statut']
     usercandidacy_attributs = ['plateforme','poste','entreprise', 'activite', 'type', 'lieu','Nom du contact','Email du contact', 'Téléphone du contact' ,'date','statut']
     app.jinja_env.globals.update(alertes = count_alertes())
 
 
-    if (current_user.is_admin == True):
-        return render_template('board.html', lenght=len(admin_candidacy_attributs), title=admin_candidacy_attributs, user_candidacy=Candidacy.get_all_in_list_with_user_name())
+    if (current_user.is_admin == True):  
+        return render_template('board.html', lenght = len(admin_candidacy_attributs), title = admin_candidacy_attributs, user_candidacy=Candidacy.get_all_in_list_with_user_name())
     else:
-        return render_template('board.html', lenght=len(usercandidacy_attributs), title=usercandidacy_attributs, user_candidacy=Candidacy.find_by_user_id(current_user.id))
+        return render_template('board.html', lenght = len(usercandidacy_attributs), title = usercandidacy_attributs ,user_candidacy=Candidacy.find_by_user_id(current_user.id))
 
 
 @app.route('/logout')
@@ -76,11 +79,10 @@ def logout_page():
     """[Allows to disconnect the user and redirect to the home page]
     """
     logout_user()
-    flash('Vous êtes correctement déconnecté',category="success")
+    flash('Vous êtes correctement déconnecté',category="secondary")
     return redirect(url_for('welcome_page'))
 
-
-@app.route('/candidature', methods=['GET', 'POST'])
+@app.route('/candidature', methods= ['GET', 'POST'])
 def add_candidature():
     """[Allow to generate the template of add_candidacy.html on candidacy path to add candidacy in the BDD if validate and redirect to the board page when finish]
 
@@ -89,14 +91,10 @@ def add_candidature():
     """
     form = AddCandidacy()
     if form.validate_on_submit():
-        Candidacy(user_id=current_user.id, entreprise=form.entreprise.data, contact_full_name=form.contact_full_name.data,
-                  contact_email=form.contact_email.data, contact_mobilephone=form.contact_mobilephone.data).save_to_db()
-        flash('Nouvelle Candidature ajouté ', category='success')
         Candidacy(user_id = current_user.id, plateforme = form.plateforme.data, poste = form.poste.data, entreprise = form.entreprise.data, activite = form.activite.data, type = form.type.data, lieu = form.lieu.data, contact_full_name = form.contact_full_name.data, contact_email = form.contact_email.data, contact_mobilephone = form.contact_mobilephone.data).save_to_db()
-        flash('Nouvelle Candidature ajoutée ', category='success')
+        flash('Nouvelle Candidature ajoutée ', category='secondary')
         return redirect(url_for('board_page'))
     return render_template('add_candidacy.html', form=form)
-
 
 @app.route('/modify_profile', methods=['GET', 'POST'])
 @login_required
@@ -109,17 +107,15 @@ def modify_profile():
     form = ModifyProfile()
     if form.validate_on_submit():
         if current_user.email_address == form.email.data and check_password_hash(current_user.password_hash, form.current_password.data):
-            current_user.password_hash = generate_password_hash(
-                form.new_password.data, method='sha256')
+            current_user.password_hash = generate_password_hash(form.new_password.data, method='sha256')
             db.session.add(current_user)
             db.session.commit()
 
-            flash(f"Votre mot de passe a été modifié", category="success")
+            flash(f"Votre mot de passe a été modifié",category="secondary")
             return redirect(url_for('board_page'))
         else:
-            flash('Adresse email ou mot de passe invalide', category="danger")
-    return render_template('modify_profile.html', form=form)
-
+            flash('Adresse email ou mot de passe invalide',category="danger")
+    return render_template('modify_profile.html',form=form)
 
 @app.route('/modify_candidacy', methods=['GET', 'POST'])
 @login_required
@@ -134,7 +130,7 @@ def modify_candidacy():
     candidacy = Candidacy.query.filter_by(id = candidacy_id).first()
     
     if form.validate_on_submit():
-
+        
         if candidacy:
             candidacy.plateforme = form.plateforme.data
             candidacy.poste = form.poste.data
@@ -150,26 +146,22 @@ def modify_candidacy():
             candidacy.relance = form.relance.data
             candidacy.date = form.modif_date.data
             candidacy.modified_quand = datetime.now()
-            
             db.session.commit()
 
-            flash(f"La candidature a bien été modifiée",category="success")
+            flash(f"La candidature a bien été modifiée",category="secondary")
             return redirect(url_for('board_page'))
         else:
             flash('Something goes wrong', category="danger")
-    return render_template('modify_candidacy.html', form=form, candidacy=candidacy.json())
-
-
+    return render_template('modify_candidacy.html', form=form , candidacy=candidacy.json())
+    
 @app.route('/delete_candidacy')
 def delete_candidacy():
     """[Allow to delete candidacy in the BDD with the id and redirect to board page]"""
 
     candidacy_id = request.args.get('id')
     Candidacy.query.filter_by(id=candidacy_id).first().delete_from_db()
-    flash("Candidature supprimée avec succès",category="success")
+    flash("Candidature supprimée avec succès",category="secondary")
     return redirect(url_for('board_page'))
-
-
 
 @app.route('/visualisation')
 def visualisation_page():
@@ -201,9 +193,9 @@ def offres_page():
         [str]: [board page code different if the user is admin or not]
     """
 
-    offer_attributs = ['Ajoutée par', 'lien', 'poste','entreprise', 'activite', 'type', 'lieu', 'Nom du contact','Email du contact', 'Téléphone du contact' ,'date']
+    offer_attributs = ['poste','entreprise', 'activite', 'type', 'lieu', 'Nom du contact','Email du contact', 'Téléphone du contact' ,'date']
 
-    return render_template('offres.html', lenght = len(offer_attributs), title = offer_attributs, user_offer=Offer.get_all_in_list_with_user_name())
+    return render_template('offres.html', lenght = len(offer_attributs), title = offer_attributs, user_offer=Offer.get_all())
  
 
 @app.route('/add_offer', methods= ['GET', 'POST'])
@@ -216,19 +208,22 @@ def add_offer():
     form = AddOffer()
     if form.validate_on_submit():
         Offer(user_id = current_user.id, lien = form.lien.data, poste = form.poste.data, entreprise = form.entreprise.data, activite = form.activite.data, type = form.type.data, lieu = form.lieu.data, contact_full_name = form.contact_full_name.data, contact_email = form.contact_email.data, contact_mobilephone = form.contact_mobilephone.data).save_to_db()
-        flash("Nouvelle offre d'emploi ajoutée", category='success')
+        flash("Nouvelle offre d'emploi ajoutée", category='secondary')
         return redirect(url_for('offres_page'))
     return render_template('add_offer.html', form=form)
-
-@app.route('/see_offer')
-def see_offer():
-    """[Go the job page]"""
-    return 'EN COURS'
 
 @app.route('/add_to_candidacy')
 def add_to_candidacy():
     """[Add an offer to a candadicies list]"""
-    return 'EN COURS'
+
+    # form = AddOffer()
+    # if form.validate_on_submit():
+    #     Candidacy(user_id = current_user.id, plateforme = "Offre de l'appli", poste = form.poste.data, entreprise = form.entreprise.data, activite = form.activite.data, type = form.type.data, lieu = form.lieu.data, contact_full_name = form.contact_full_name.data, contact_email = form.contact_email.data, contact_mobilephone = form.contact_mobilephone.data).save_to_db()
+    #     flash('Nouvelle Candidature ajoutée ', category='secondary')
+    #     return redirect(url_for('board_page'))
+    # return render_template('add_candidacy.html', form=form)
+    return 'En cours'
+
 
 @app.route('/modify_offer', methods=['GET', 'POST'])
 @login_required
@@ -256,7 +251,7 @@ def modify_offer():
             offer.contact_mobilephone = form.contact_mobilephone.data
             db.session.commit()
 
-            flash(f"L'offre d'emploi a bien été modifiée",category="success")
+            flash(f"L'offre d'emploi a bien été modifiée",category="secondary")
             return redirect(url_for('offres_page'))
         else:
             flash('Something goes wrong',category="danger")
@@ -268,8 +263,9 @@ def delete_offer():
 
     offer_id = request.args.get('id')
     Offer.query.filter_by(id=offer_id).first().delete_from_db()
-    flash("Offre d'emploi supprimée avec succès",category="success")
+    flash("Offre d'emploi supprimée avec succès",category="secondary")
     return redirect(url_for('offres_page'))
+
 
 
 @app.route('/calendar')
@@ -288,7 +284,62 @@ def profil_page():
 def gestion_page():
     """[To add/modify/delete profiles]"""
 
-    return render_template('gestion.html')
+    userlist_attributs = ['Nom', 'Prénom', 'Email', 'Téléphone', 'promotion', 'année', 'Droits']
+
+    if (current_user.is_admin == True):  
+        return render_template('gestion.html', lenght = len(userlist_attributs), title = userlist_attributs, user_list=Users.get_all())
+
+@app.route('/add_user', methods= ['GET', 'POST'])
+def add_user():
+    """[To add an user to the database]
+
+    Returns:
+        [str]: [User code page]
+    """
+
+    form = AddUser()
+    if form.validate_on_submit():
+        Users(last_name = form.last_name.data, first_name = form.first_name.data, email_address = form.email_address.data, password_hash = form.password_hash.data, telephone_number = form.telephone_number.data, promo = form.promo.data, year = form.year.data, curriculum = form.curriculum.data, is_admin = form.is_admin.data).save_to_db()
+        flash('Nouvel utilisateur ajouté ', category='secondary')
+        return redirect(url_for('gestion_page'))
+    return render_template('add_user.html', form=form)
+
+@app.route('/modify_user', methods=['GET', 'POST'])
+@login_required
+def modify_user():
+    """[Allow to generate the template of modify_candidacy.html on modify_candidacy path to modify candidacy in the BDD if validate and redirect to the board page when finish]
+
+    Returns:
+        [str]: [modify candidacy code page]
+    """
+    form = ModifyUser()
+    candidacy_id = request.args.get('id')
+    candidacy = Users.query.filter_by(id = candidacy_id).first()
+    
+    if form.validate_on_submit():
+        
+        if user:
+            user.plateforme = form.plateforme.data
+            user.poste = form.poste.data
+            user.entreprise = form.entreprise.data
+            user.activite = form.activite.data
+            user.type = form.type.data
+            user.lieu = form.lieu.data
+            user.contact_full_name = form.contact_full_name.data
+            user.contact_email = form.contact_email.data
+            user.contact_mobilephone = form.contact_mobilephone.data
+            user.status = form.status.data
+            user.relance = form.relance.data
+            user.date = form.modif_date.data
+            db.session.commit()
+
+            flash(f"La candidature a bien été modifiée",category="secondary")
+            return redirect(url_for('board_page'))
+        else:
+            flash('Something goes wrong',category="danger")
+    return render_template('modify_user.html', form=form , user=user.json())
+
+
 
 @app.route('/callback', methods=['POST', 'GET'])
 def cb():

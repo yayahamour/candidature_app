@@ -14,6 +14,19 @@ class Login(FlaskForm):
                              validators=[DataRequired()])
     submit = SubmitField(label="Se connecter")
 
+class AddUser(FlaskForm):
+    """[Form to add user]
+    """
+    last_name = StringField(label='Nom', validators=[DataRequired()])
+    first_name = StringField(label='Prénom', validators=[DataRequired()])
+    email_address = StringField(label='Email', validators=[DataRequired()])
+    password_hash = StringField(label='Mot de passe', validators=[DataRequired()])
+    telephone_number = StringField(label='Téléphone', validators=[DataRequired()])
+    promo = SelectField(label='Promotion', validators=[DataRequired()], choices = ['Dev IA', 'Dev java','Dev web', 'Cobol', 'Autre'])
+    year = StringField(label='Année', validators=[DataRequired()])
+    curriculum = StringField(label='Lien du CV', validators=[DataRequired()])
+    is_admin = BooleanField(' Droits administrateur : ')
+    submit = SubmitField(label='Ajouter')
 class AddCandidacy(FlaskForm):
     """[Form to add candidacy]
     """
