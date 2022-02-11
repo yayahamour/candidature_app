@@ -1,51 +1,39 @@
 {% extends 'base.html' %}
 
 {% block title %} 
-    Modifier candidature
+    Modifier utilisateur
 {% endblock %}
 
 {% block content %}
     <div class='container mt-5'>
-        <h1 class="text-center"> Modifier candidature </h1>
+        <h1 class="text-center"> Modifier utilisateur </h1>
         <br>
         <form method="POST" class="form-register">
             {{ form.hidden_tag() }}
 
-            {{ form.plateforme.label() }}
-            {{ form.plateforme(value=candidacy.plateforme, class="form-control") }}
+            {{ form.last_name.label() }}
+            {{ form.last_name(value=user.last_name, class="form-control") }}
             <br>
-            {{ form.poste.label() }}
-            {{ form.poste(value=candidacy.poste, class="form-control") }}
+            {{ form.first_name.label() }}
+            {{ form.first_name(value=user.first_name, class="form-control") }}
             <br>
-            {{ form.entreprise.label() }}
-            {{ form.entreprise(value=candidacy.entreprise, class="form-control") }}
+            {{ form.email_address.label() }}
+            {{ form.email_address(value=user.email_address, class="form-control") }}
             <br>
-            {{ form.activite.label() }}
-            {{ form.activite(value=candidacy.activite, class="form-control") }}
+            {{ form.telephone_number.label() }}
+            {{ form.telephone_number(value=user.telephone_number, class="form-control") }}
             <br>
-            {{ form.type.label() }}
-            {{ form.type(value=candidacy.type, class="form-control") }}
+            {{ form.promo.label() }}
+            {{ form.promo(value=user.promo, class="form-control") }}
             <br>
-            {{ form.lieu.label() }}
-            {{ form.lieu(value=candidacy.lieu, class="form-control") }}
+            {{ form.year.label() }}
+            {{ form.year(value=user.year, class="form-control") }}
             <br>
-            {{ form.contact_full_name.label() }}
-            {{ form.contact_full_name(value=candidacy.contact_full_name, class="form-control") }}
+            {{ form.curriculum.label() }}
+            {{ form.curriculum(value=user.curriculum, class="form-control") }}
             <br>
-            {{ form.contact_email.label() }}
-            {{ form.contact_email(value=candidacy.contact_email, class="form-control") }}
-            <br>
-            {{ form.contact_mobilephone.label() }}
-            {{ form.contact_mobilephone(value=candidacy.contact_mobilephone, class="form-control") }}
-            <br>
-            {{ form.status.label() }}
-            {{ form.status(value=candidacy.status, class="form-control") }}
-            <br>
-            {{ form.modif_date.label() }}
-            {{form.modif_date(value=candidacy.date)}}
-            <br>
-            {{ form.relance.label() }}
-            {{ form.relance(value=candidacy.relance)}}
+            {{ form.is_admin.label() }}
+            {{ form.is_admin(value=user.is_admin, class="form-control") }}
             <br>
             {{ form.submit(class="btn btn-lg btn-dark d-block", id="button")}}
         </form>

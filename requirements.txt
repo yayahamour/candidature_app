@@ -6,6 +6,9 @@ Flask-Login
 Flask-Mail
 Flask-SQLAlchemy
 Flask-WTF
+Flask-RESTful
+Flask-JWT
+uwsgi
 greenlet
 itsdangerous
 Jinja2
@@ -26,3 +29,4 @@ tenacity
 Werkzeug
 WTForms
 wtforms-html5
+psycopg2
