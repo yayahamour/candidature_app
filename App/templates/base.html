@@ -65,21 +65,7 @@
                     </a>
                 </li>
 
-
-                <li class="nav-item ml-3">
-                    <a class="nav-link" href="{{ url_for('cal') }}">
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-            <path fill="currentColor"
-              d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM9.5 7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm3 0h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zM2 10.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z" />
-          </svg> Calendrier
-                    </a>
-                </li>
-
-
-
-
-
-
+                
                 <li class="nav-item ml-3">
                     <a class="nav-link" href="{{ url_for('board_page') }}">
                         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -91,6 +77,17 @@
 
 
                 <li class="nav-item ml-3">
+                    <a class="nav-link" href="{{ url_for('cal') }}">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path fill="currentColor"
+              d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM9.5 7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm3 0h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zM2 10.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z" />
+          </svg> Calendrier
+                    </a>
+                </li>
+
+                {% if current_user.is_admin == False %}
+
+                <li class="nav-item ml-3">
                     <a class="nav-link" href="{{ url_for('relance_page') }}">
                         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
               <path fill="currentColor"
@@ -100,7 +97,7 @@
                 <div id="notif">
                     {{alertes}}
                 </div>
-
+                {% endif %}
 
 
                 <li class="nav-item ml-3">
@@ -108,10 +105,11 @@
                         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
               <path fill="currentColor"
               d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z"/>
-            </svg> Visualisations1
+            </svg> Visualisations
                     </a>
                 </li>
 
+                {% if current_user.is_admin == True %}
 
                 <li class="nav-item ml-3">
                     <a class="nav-link" href="{{ url_for('stats') }}">
@@ -123,20 +121,15 @@
                 </li>
 
 
-
                 <li class="nav-item ml-3">
                     <a class="nav-link" href="{{ url_for('gestion_page') }}">
                         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-              <path fill="currentColor"
+                <path fill="currentColor"
                 d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019.528.026.287.445.445.287.026.529L15 13l-.242.471-.026.529-.445.287-.287.445-.529.026L13 15l-.471-.242-.529-.026-.287-.445-.445-.287-.026-.529L11 13l.242-.471.026-.529.445-.287.287-.445.529-.026L13 11l.471.242z" />
-            </svg> Gestion
+                </svg> Gestion
                     </a>
                 </li>
-
-                {% if current_user.is_admin %}
-                <li class="nav-item ml-3">
-                    <a class="nav-link" href="{{ url_for('stats') }}">Stats</a>
-                </li>
+            
                 {%endif%}
 
 
