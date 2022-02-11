@@ -295,8 +295,6 @@ class Events(db.Model):
         db.session.delete(self)
         db.session.commit()
 # Function to create db and populate it
-
-
 def init_db():
     db.drop_all()
     db.create_all()
