@@ -1,48 +1,48 @@
 {% extends "base.html" %}
 {% block title %}
-    Ajout candidature
+    Ajout utilisateur
 {% endblock %}
 {% block content%}
 <div class='container mt-5'>
-    <h1>Nouvelle Candidature</h1>
+    <h1>Nouvel utilisateur</h1>
     <form method="POST" class="form-register">
         {{ form.hidden_tag() }}
 
-        {{ form.plateforme.label }}
-        {{ form.plateforme(size=32, class="form-control") }}
+        {{ form.last_name.label }}
+        {{ form.last_name(size=32, class="form-control") }}
         <br>
 
-        {{ form.poste.label }}
-        {{ form.poste(class="form-control") }}
+        {{ form.first_name.label }}
+        {{ form.first_name(class="form-control") }}
         <br>
 
-        {{ form.entreprise.label }}
-        {{ form.entreprise(size=32, class="form-control") }}
+        {{ form.email_address.label }}
+        {{ form.email_address(size=32, class="form-control") }}
         <br>
 
-        {{ form.activite.label }}
-        {{ form.activite(class="form-control") }}
+        {{ form.password_hash.label }}
+        {{ form.password_hash(class="form-control") }}
         <br>
 
-        {{ form.type.label }}
-        {{ form.type(class="form-control") }}
+        {{ form.telephone_number.label }}
+        {{ form.telephone_number(class="form-control") }}
         <br>
 
-        {{ form.lieu.label }}
-        {{ form.lieu(size=32, class="form-control") }}
+        {{ form.promo.label }}
+        {{ form.promo(class="form-control") }}
         <br>
 
-        {{ form.contact_full_name.label }}
-        {{ form.contact_full_name(size=32, class="form-control") }}
+        {{ form.year.label }}
+        {{ form.year(size=32, class="form-control") }}
         <br>
 
-        {{ form.contact_email.label }}
-        {{ form.contact_email(size=32, class="form-control") }}
+        {{ form.curriculum.label }}
+        {{ form.curriculum(size=32, class="form-control") }}
         <br>
 
-        {{ form.contact_mobilephone.label }}
-        {{ form.contact_mobilephone(size=32, class="form-control") }}
-        <br>  
+        {{ form.is_admin.label }}
+        {{ form.is_admin(class="form-control") }}
+        <br>
 
         {{ form.submit(class="btn btn-lg btn-dark mt-4 d-block",id="button") }}
     </form>

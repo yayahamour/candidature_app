@@ -4,7 +4,7 @@ from sqlalchemy import JSON, false
 from App import db, app
 from datetime import date
 from .models import Users, Candidacy, Offer, bot  
-from .forms import Login, AddCandidacy, ModifyCandidacy, ModifyProfile, AddOffer, ModifyOffer , Stats
+from .forms import Login, AddUser, AddCandidacy, ModifyCandidacy, ModifyProfile, AddOffer, ModifyOffer , Stats
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
@@ -284,10 +284,27 @@ def profil_page():
 def gestion_page():
     """[To add/modify/delete profiles]"""
 
-    userlist_attributs = ['Nom', 'Prénom', 'Email', 'Téléphone', 'promotion', 'année', 'CV', 'Droits']
+    userlist_attributs = ['Nom', 'Prénom', 'Email', 'Téléphone', 'promotion', 'année', 'Droits']
 
     if (current_user.is_admin == True):  
         return render_template('gestion.html', lenght = len(userlist_attributs), title = userlist_attributs, user_list=Users.get_all())
+
+@app.route('/add_user', methods= ['GET', 'POST'])
+def add_user():
+    """[To add an user to the database]
+
+    Returns:
+        [str]: [User code page]
+    """
+
+    form = AddUser()
+    if form.validate_on_submit():
+        Users(last_name = form.last_name.data, first_name = form.first_name.data, email_address = form.email_address.data, password_hash = form.password_hash.data, telephone_number = form.telephone_number.data, promo = form.promo.data, year = form.year.data, curriculum = form.curriculum.data, is_admin = form.is_admin.data).save_to_db()
+        flash('Nouvel utilisateur ajouté ', category='secondary')
+        return redirect(url_for('gestion_page'))
+    return render_template('add_user.html', form=form)
+
+
 
 @app.route('/callback', methods=['POST', 'GET'])
 def cb():

@@ -11,17 +11,17 @@
     <h2 class="col-12 text-dark my-5">TON PROFIL</h2>
     <div class="col-5 infos">
         {% if current_user.is_admin == False %}
-        <p>Promo : {user.promo}</p>
-        <p>Année : {user.year}</p>
-        <p>Nom : {user.last_name}</p>
-        <p>Prénom : {user.first_name}</p>
+        <p>Promo : {{current_user.promo}}</p>
+        <p>Année : {{current_user.year}}</p>
+        <p>Nom : {{current_user.last_name}}</p>
+        <p>Prénom : {{current_user.first_name}}</p>
         <p>Nombre de candidatures : </p>
         <p>Statistiques : </p>
         <p>Ajouter ton CV </p>
         {% endif %}
         {% if current_user.is_admin == True %}
-        <p>Nom : {current_user.last_name}</p>
-        <p>Prénom : {current_user.first_stat}</p>
+        <p>Nom : {{current_user.last_name}}</p>
+        <p>Prénom : {{current_user.first_name}}</p>
         <p>Poste à Simplon : </p>
         {% endif %}
     </div>
