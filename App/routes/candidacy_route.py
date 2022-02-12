@@ -1,11 +1,17 @@
 import imp
+from operator import imod
 from flask import render_template, redirect, url_for, flash, request
 from App import db, app
 from .forms import AddCandidacy, ModifyCandidacy
 from datetime import datetime
-from ..lclass import Candidacy, bot 
+from ..lclass.candidacy import Candidacy
+from ..lclass.bot import Bot
+ 
 from flask_login import login_required, current_user
 from tools import math_relance, count_alertes, notif_relance
+
+bot = Bot()
+
 @app.route('/candidature', methods= ['GET', 'POST'])
 def add_candidature():
     """[Allow to generate the template of add_candidacy.html on candidacy path to add candidacy in the BDD if validate and redirect to the board page when finish]

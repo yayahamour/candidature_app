@@ -28,4 +28,4 @@ class Bot:
         else:
             print('Message Non envoyé')
 
-bot = Bot()
+
