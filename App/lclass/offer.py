@@ -1,7 +1,7 @@
 from App import db
 import datetime
 from flask import jsonify
-from user import Users
+from .user import Users
 
 class Offer(db.Model):
     """Create a table Offer on the candidature database
