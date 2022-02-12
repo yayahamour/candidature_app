@@ -5,7 +5,6 @@ from datetime import datetime
 from lclass import Candidacy, bot 
 from flask_login import login_required, current_user
 from tools import math_relance, count_alertes, notif_relance
-
 @app.route('/candidature', methods= ['GET', 'POST'])
 def add_candidature():
     """[Allow to generate the template of add_candidacy.html on candidacy path to add candidacy in the BDD if validate and redirect to the board page when finish]
