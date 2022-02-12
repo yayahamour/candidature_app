@@ -1,7 +1,8 @@
 from flask import render_template, request
 from App import app
 from .forms import Stats
-from ..lclass import Users, Candidacy
+from ..lclass.user import Users
+from ..lclass.candidacy import Candidacy
 from flask_login import login_required
 import pandas as pd
 import plotly

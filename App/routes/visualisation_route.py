@@ -1,13 +1,15 @@
 from flask import render_template
 from App import app
-from ..lclass import Users, Candidacy, Offer
+from ..lclass.user import Users
+from ..lclass.candidacy import Candidacy
+from ..lclass.offer import Offer
 from flask_login import login_required, current_user
 import sqlite3
 import pandas as pd
 import plotly
 import plotly.express as px
 import json
-from ..tools import count_alertes
+from .tools import count_alertes
 
 @app.route('/board', methods=['GET','POST'])
 @login_required
