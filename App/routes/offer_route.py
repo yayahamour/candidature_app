@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from App import db, app
 from .forms import AddOffer, ModifyOffer
-from ..lclass import Offer
+from ..lclass.offer import Offer
 from flask_login import login_required, current_user
 
 @app.route('/add_offer', methods= ['GET', 'POST'])
