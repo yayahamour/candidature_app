@@ -1,5 +1,5 @@
 #from gi.repository import Notify
-from .lclass import Candidacy
+from ..lclass.candidacy import Candidacy
 from flask_login import current_user
 import datetime
 
