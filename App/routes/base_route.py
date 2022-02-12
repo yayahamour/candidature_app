@@ -1,8 +1,7 @@
 from flask import render_template, flash, redirect, url_for
-from App import app
+from App import app, lclass
 from werkzeug.security import check_password_hash
 from .forms import Login
-from ..lclass import Users
 from flask_login import login_user, logout_user
 
 @app.route('/')
@@ -31,7 +30,7 @@ def login_page():
     """
     form = Login()
     if form.validate_on_submit():
-        user = Users.query.filter_by(email_address=form.email.data).first()
+        user = lclass.user.Users.query.filter_by(email_address=form.email.data).first()
         if user and check_password_hash(user.password_hash, form.password.data):
             login_user(user)
             flash(f"Vous êtes connecté en tant que : {user.first_name} {user.last_name} - promotion : {user.promo} {user.year}",category="secondary")
