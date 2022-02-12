@@ -1,6 +1,7 @@
+import imp
 from flask import render_template, redirect, url_for, flash, request
 from App import db, app
-from routes.forms  import AddCandidacy, ModifyCandidacy
+from .forms import AddCandidacy, ModifyCandidacy
 from datetime import datetime
 from lclass import Candidacy, bot 
 from flask_login import login_required, current_user
