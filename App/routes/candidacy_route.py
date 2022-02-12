@@ -8,7 +8,7 @@ from ..lclass.candidacy import Candidacy
 from ..lclass.bot import Bot
  
 from flask_login import login_required, current_user
-from tools import math_relance, count_alertes, notif_relance
+from .tools import math_relance, count_alertes, notif_relance
 
 bot = Bot()
 
