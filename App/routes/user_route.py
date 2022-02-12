@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from App import db, app
-from ..forms import AddUser, ModifyUser, ModifyProfile
+from forms import AddUser, ModifyUser, ModifyProfile
 from ..lclass import Users
 from flask_login import login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
