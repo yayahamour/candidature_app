@@ -1,6 +1,6 @@
 from App import db
 import datetime
-from user import Users
+from .user import Users
 class Candidacy(db.Model):
     """Create a table Candidacy on the candidature database
 

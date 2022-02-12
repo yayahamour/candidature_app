@@ -1,6 +1,6 @@
 from flask import render_template
 from App import app
-from ..models import Users, Candidacy, Offer
+from ..lclass import Users, Candidacy, Offer
 from flask_login import login_required, current_user
 import sqlite3
 import pandas as pd
