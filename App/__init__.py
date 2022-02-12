@@ -34,7 +34,7 @@ mail = Mail(app)
 
 
 from App import routes
-from App import models
+from .lclass import *
 from .routes import *
 
 

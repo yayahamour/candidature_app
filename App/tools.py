@@ -1,9 +1,7 @@
 #from gi.repository import Notify
-from .models import Candidacy
+from .lclass import Candidacy
 from flask_login import current_user
-import datetime 
-from App import app, mail 
-from flask_mail import Mail , Message
+import datetime
 
 
 

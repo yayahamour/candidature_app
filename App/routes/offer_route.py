@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from App import db, app
-from forms import AddOffer, ModifyOffer
+from ..forms import AddOffer, ModifyOffer
 from models import Offer
 from flask_login import login_required, current_user
 
