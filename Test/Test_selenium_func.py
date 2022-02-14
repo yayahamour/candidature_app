@@ -45,6 +45,7 @@ class Selenium_test:
 
         # Click on the button add candidacy
         driver.find_element_by_name('submit').click()
+        sleep(0.5)
 
         # Assert flash element added success 
         try:
@@ -64,6 +65,7 @@ class Selenium_test:
     def delete_candidacy_test() :
         # Click on the third button delete item 
         delete_xpath = '//tbody/tr/td[12]/a[2]'
+        sleep(0.5)
         try:
             driver.find_element(By.XPATH, delete_xpath).click()
             flash_succes = driver.find_element_by_class_name('alert').text
@@ -80,6 +82,7 @@ class Selenium_test:
         
     def clic_offres():
         driver.find_element_by_link_text('Offres').click()
+        sleep(0.5)
         try:
             h1 = driver.find_element_by_tag_name('h1')
             assert h1.text == "OFFRES D'ALTERNANCE"
@@ -102,6 +105,7 @@ class Selenium_test:
 
         # Click on the button add candidacy
         driver.find_element_by_name('submit').click()
+        sleep(0.5)
 
         # Assert flash element added success 
         try:
@@ -123,6 +127,7 @@ class Selenium_test:
         try:
             delete_xpath = '//tbody/tr[2]/td[10]/a[3]'
             driver.find_element(By.XPATH, delete_xpath).click()
+            sleep(0.5)
             flash_succes = driver.find_element_by_class_name('alert').text
             assert "Offre d'emploi supprimée avec succès" in flash_succes
             print('------------------test offer deleted with succées ---------')

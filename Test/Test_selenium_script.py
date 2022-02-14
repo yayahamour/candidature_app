@@ -21,4 +21,4 @@ Selenium_test.add_offer_test("Apple", "Eric")
 Selenium_test.delete_offer_test() 
 
 
-# driver.quit()
+driver.quit()
