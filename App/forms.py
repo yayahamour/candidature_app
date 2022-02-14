@@ -35,19 +35,19 @@ class ModifyProfile(FlaskForm):
     submit = SubmitField(label="Valider")
 
 class ModifyCandidacy(FlaskForm):
-    """[form to modify candidacy]
-    """
-    plateforme = StringField(label='Plateforme', validators=[DataRequired()])
-    poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer'])
+    plateforme = StringField(label='Plateforme(Indeed, spontanée...)', validators=[DataRequired()])
+    poste = SelectField(label='Poste', validators=[DataRequired()], choices = ['Data Analyst', 'Data Scientist','Data Engineer', 'Dev Ia', 'Dev Python'])
     entreprise = StringField(label='Entreprise', validators=[DataRequired()])
     activite = SelectField(label='Activité', validators=[DataRequired()], choices = ['Industrie', 'Marketing','Medecine', 'Autre'])
     type = SelectField(label='Type', validators=[DataRequired()], choices = ['Cabinet Conseil', 'Grand Groupe','Start-up'])
     lieu = StringField(label='Lieu', validators=[DataRequired()])
-    contact_full_name = StringField(label='Nom du contact', validators=[DataRequired()])
-    contact_email = StringField(label='Email du contact', validators=[DataRequired()])
+    contact_full_name = StringField(label='Nom du contact')
+    contact_email = StringField(label='Email du contact')
     contact_mobilephone = StringField(label='Téléphone du contact')
     status = SelectField(label='Statut', validators=[DataRequired()], choices = ['En cours', 'A été relancée',"En attente d'entretien", "Acceptée", "Refusée"])
-
+    date = DateField('Date de création', format='%Y-%m-%d')
+    modified_date = DateField('Date de modification', format='%Y-%m-%d')
+    relance = BooleanField('A été relancé ? ')
     submit = SubmitField(label="Valider")
 
 
