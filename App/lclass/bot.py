@@ -1,6 +1,6 @@
 import datetime
-from flask_mail import Message, mail
-from App import app
+from flask_mail import Message
+from App import app, mail
 class Bot:
 
     def __init__(self, date_tchecker=[1]):
