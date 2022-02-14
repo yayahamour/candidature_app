@@ -1,5 +1,5 @@
 from flask import render_template
-from App import app
+from App import app, db
 from ..lclass.user import Users
 from ..lclass.candidacy import Candidacy
 from ..lclass.offer import Offer
@@ -34,8 +34,7 @@ def board_page():
 def visualisation_page():
     """[Show differents visualizations]"""
 
-    cnx = sqlite3.connect('app.db')
-    df = pd.read_sql_query("SELECT * FROM candidacy", cnx)
+    df = pd.read_sql_query("SELECT * FROM candidacy", db)
 
     fig_avancement = px.pie(df, names='status', title ='Répartition des candidatures de la promo par : avancement des candidatures')
     graphavancement = json.dumps(fig_avancement, cls=plotly.utils.PlotlyJSONEncoder)
