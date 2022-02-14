@@ -1,5 +1,5 @@
 import datetime
-from flask_mail import Message
+from flask_mail import Message, mail
 from App import app
 class Bot:
 
@@ -8,7 +8,6 @@ class Bot:
 
 
     def mail_relance(self, adresse):
-        
         jour = str(datetime.date.today())[8:]
         if str(self.date_tchecker[-1]) != jour:
             msg = Message(subject="Relance suivit candidature Simplon", 
@@ -16,7 +15,7 @@ class Bot:
                         sender=app.config.get("MAIL_USERNAME"),
                         recipients=[adresse])
             try: 
-                #mail.send(msg)
+                mail.send(msg)
                 print('jour : ', jour)
                 print('element liste all', self.date_tchecker )
                 print('dernier element de la liste', self.date_tchecker[-1])
