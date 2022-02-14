@@ -41,7 +41,7 @@ def list_fonction(vue = "all"):
         list_candidacy = Candidacy.find_by_user_id(learner[0])
         apprenticeship = False
         for candidacy in list_candidacy :
-            if candidacy["status"] == "Validée":
+            if candidacy["status"] == "Acceptée":
                 apprenticeship = True
         if (apprenticeship) == True:
             if (len(list_have_apprenticeship) == 0):
@@ -70,9 +70,9 @@ def gm(vue = "all"):
         apprenticeship = False
         status = "En cours"
         for candidacy in list_candidacy :
-            if candidacy["status"] == "Validée":
+            if candidacy["status"] == "Acceptée":
                 apprenticeship = True
-                status = "Validée"
+                status = "Acceptée"
         list_status.append(status)
         list_apprenticeship.append(apprenticeship)
     df["apprenticeship"] = list_apprenticeship
