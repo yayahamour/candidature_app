@@ -33,7 +33,6 @@ def board_page():
 @app.route('/visualisation')
 def visualisation_page():
     """[Show differents visualizations]"""
-
     df = pd.read_sql_query("SELECT * FROM candidacy", db)
 
     fig_avancement = px.pie(df, names='status', title ='Répartition des candidatures de la promo par : avancement des candidatures')
