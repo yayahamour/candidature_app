@@ -70,7 +70,7 @@ class Selenium_test:
             driver.find_element(By.XPATH, delete_xpath).click()
             flash_succes = driver.find_element_by_class_name('alert').text
             assert "Candidature supprimée avec succès" in flash_succes
-            print('------------------delete candidacy done----------------------')
+            print('------------------test delete candidacy done----------------------')
 
         except:
             print('Cannot found the delete button --------ERROR!')
@@ -86,7 +86,7 @@ class Selenium_test:
         try:
             h1 = driver.find_element_by_tag_name('h1')
             assert h1.text == "OFFRES D'ALTERNANCE"
-            print('------------------offres page reached with success---------------------')
+            print('------------------test offres page reached with success---------------------')
         except AttributeError:
             print('ERROR : Title not found --------ERROR! ')
         

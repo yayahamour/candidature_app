@@ -9,11 +9,11 @@ url = 'http://candidature-app1.herokuapp.com/profil'
 
 driver.get(url)
 
-Selenium_test.clic_connexion("yayahamour@gmail.com","1234")
+Selenium_test.clic_connexion("yayahamour@gmail.com","1234") 
 
-Selenium_test.add_candidacy_test('Linkedin','eric@gmail.com')
+Selenium_test.add_candidacy_test('Linkedin','eric@gmail.com') *2 
 
-Selenium_test.delete_candidacy_test()
+Selenium_test.delete_candidacy_test() * 2 
 
 Selenium_test.clic_offres()
 
