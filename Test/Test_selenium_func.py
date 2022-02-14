@@ -12,7 +12,9 @@ class Selenium_test:
         sleep(1)
         # Insert user and password in the login form 
         driver.find_element_by_id('email').send_keys(user)
+        sleep(0.5)
         driver.find_element_by_id('password').send_keys(password)
+        sleep(0.5)
         driver.find_element_by_name('submit').click()
 
         # Assert h1 field is correct in this page
@@ -35,8 +37,11 @@ class Selenium_test:
         
         # Insert the candidacy in the form 
         driver.find_element_by_id('plateforme').send_keys(plateform_name) 
+        sleep(0.5)
         driver.find_element_by_id('entreprise').send_keys('Ikea') 
+        sleep(0.5)
         driver.find_element_by_id('lieu').send_keys("Lille") 
+        sleep(0.5)
 
         # Click on the button add candidacy
         driver.find_element_by_name('submit').click()
@@ -78,7 +83,7 @@ class Selenium_test:
         try:
             h1 = driver.find_element_by_tag_name('h1')
             assert h1.text == "OFFRES D'ALTERNANCE"
-            print('------------------Offres page reached with success---------------------')
+            print('------------------offres page reached with success---------------------')
         except AttributeError:
             print('ERROR : Title not found --------ERROR! ')
         
@@ -89,8 +94,11 @@ class Selenium_test:
         
         # Insert the candidacy in the form 
         driver.find_element_by_id('entreprise').send_keys(entreprise_name) 
+        sleep(0.5)
         driver.find_element_by_id('lieu').send_keys('Ikea') 
+        sleep(0.5)
         driver.find_element_by_id('contact_full_name').send_keys(contact_test) 
+        sleep(0.5)
 
         # Click on the button add candidacy
         driver.find_element_by_name('submit').click()
@@ -121,9 +129,7 @@ class Selenium_test:
         except:
             print('Cannot found the delete button   --------ERROR!')
 
-        # need order dashboard by last added to assert 'word' not in [xpath row[1]] 
-        # Or need candidacy id on admin dashboard to assert deleted
-        # Or need to use Candidacy.query.filter_by(name=["element to check"]) methods ?
-
-        print('------------------delete candidacy n°3 done----------------------')
+        print('------------------delete offer n°2 done----------------------')
+   
+   
    
