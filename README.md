@@ -1,7 +1,14 @@
 # candi-app
 Interface pour candidature
 
+# Slide  
+https://docs.google.com/presentation/d/1O9zXKJWueaOo5ks6hLcOdiCrG406ic1YNmFEwpuxc1k/edit#slide=id.p
 
+# Lien de l'application déployé :
+http://candidature-app1.herokuapp.com/
+
+# Jira :
+https://ayoubh.atlassian.net/jira/software/projects/CS/boards/1
 
 # Deployment:
 
