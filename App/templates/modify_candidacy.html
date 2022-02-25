@@ -11,46 +11,42 @@
         <form method="POST" class="form-register">
             {{ form.hidden_tag() }}
 
-            {{ form.plateforme.label() }}
-            {{ form.plateforme(value=candidacy.plateforme, class="form-control") }}
-            <br>
-            {{ form.poste.label() }}
-            {{ form.poste(value=candidacy.poste, class="form-control") }}
-            <br>
-            {{ form.entreprise.label() }}
-            {{ form.entreprise(value=candidacy.entreprise, class="form-control") }}
-            <br>
-            {{ form.activite.label() }}
-            {{ form.activite(value=candidacy.activite, class="form-control") }}
-            <br>
-            {{ form.type.label() }}
-            {{ form.type(value=candidacy.type, class="form-control") }}
-            <br>
-            {{ form.lieu.label() }}
-            {{ form.lieu(value=candidacy.lieu, class="form-control") }}
+            <div class="row">
+                <div class="col-sm">
+                    {{ form.entreprise.label }}
+                    {{ form.entreprise(value=candidacy.entreprise, class="form-control",placeholder="Poudlard inc") }}
+                </div>
+                <div class="col-sm">
+                    {{ form.ville_entreprise.label }}
+                    {{ form.ville_entreprise(value=candidacy.ville_entreprise, size=32, class="form-control",placeholder="C'est où Poudlard en vrai ?") }}
+                </div>
+            </div>
             <br>
             {{ form.contact_full_name.label() }}
-            {{ form.contact_full_name(value=candidacy.contact_full_name, class="form-control") }}
+            {{ form.contact_full_name(value=candidacy.contact_full_name, class="form-control",placeholder="Mr Albus dumbledor") }}
             <br>
             {{ form.contact_email.label() }}
-            {{ form.contact_email(value=candidacy.contact_email, class="form-control") }}
+            {{ form.contact_email(value=candidacy.contact_email, class="form-control", placeholder="albuslebgdu59@yahoo.com") }}
             <br>
             {{ form.contact_mobilephone.label() }}
-            {{ form.contact_mobilephone(value=candidacy.contact_mobilephone, class="form-control") }}
+            {{ form.contact_mobilephone(value=candidacy.contact_mobilephone, class="form-control",placeholder="0600000000") }}
             <br>
-            {{ form.status.label() }}
-            {{ form.status(value=candidacy.status, class="form-control") }}
+            {{ form.comment.label() }}
+            {{ form.comment(value=candidacy.comment, class="form-control",placeholder="Entrez l'url de votre candidature \nOu la date de votre entretien") }}
             <br>
-            {{ form.date.label() }}
-            {{form.date(value=candidacy.date)}}
+            <div class="row">
+                <div class="col-sm">
+                    {{ form.status.label() }}
+                    {{ form.status(value=candidacy.status, class="form-control") }}
+                </div>
+                <div class="col-sm">
+                    {{ form.date.label() }}
+                    {{ form.date(value=candidacy.date, class="form-control") }}
+                </div>
+            </div>
             <br>
-            {{ form.modified_date.label() }}
-            {{form.modified_date(value=candidacy.date)}}
             <br>
-            {{ form.relance.label() }}
-            {{ form.relance(value=candidacy.relance)}}
-            <br>
-            {{ form.submit(class="btn btn-lg btn-dark d-block", id="button")}}
+            {{ form.submit(class="btn btn-lg btn-primary d-block", id="button")}}
         </form>
     </div>  
 {% endblock %}
