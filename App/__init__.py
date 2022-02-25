@@ -32,10 +32,8 @@ mail_settings = {
 app.config.update(mail_settings)
 mail = Mail(app)
 
-
-from App import routes
-from .lclass import *
-from .routes import *
+import routes
+import lclass
 
 
 #models.init_db()

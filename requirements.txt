@@ -7,7 +7,7 @@ Flask-Mail
 Flask-SQLAlchemy
 Flask-WTF
 Flask-RESTful
-Flask-JWT
+flask-jwt==0.3.2
 uwsgi
 greenlet
 itsdangerous
@@ -79,6 +79,7 @@ Pygments==2.11.2
 PyJWT==2.3.0
 pyOpenSSL==22.0.0
 pytest==7.0.1
+
 python-dotenv==0.19.2
 pywin32==303;platform_system == "Windows"
 pyzmq==22.3.0
