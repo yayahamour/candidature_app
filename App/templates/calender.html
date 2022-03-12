@@ -2,6 +2,9 @@
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 <script>
+<<<<<<< ours
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     document.addEventListener("DOMContentLoaded", function() {
         var calendarEl = document.getElementById("calendar");
 
@@ -42,19 +45,157 @@
         });
         calendar.render();
     });
+=======
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+
+  var meet = {{events | safe}};
+  console.log(meet);
+
+  var config = {
+    initialView: 'dayGridMonth',
+        headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    selectable: true,
+    selectHelper: true,
+    editable: true,
+    eventLimit: true,
+};
+    events: meet.map(ev => ({
+        title: ev.event_title,
+        start: ev.start_date,
+        end : ev.end_date,
+        url: ev.url, 
+      }));
+
+  var calendar = new FullCalendar.Calendar(calendarEl, config)
+    calendar.render();
+});
+>>>>>>> Stashed changes
 </script>
-{% endblock %} {% block content %} {% block button %}
-<div class="collapse navbar-collapse col-7" id="navbar">
-    <ul class="navbar-nav">
-        {% if current_user.is_authenticated %}
-        <li class="nav-item ml-3">
-            <a class="nav-link" href="{{ url_for('add') }}">Add Event</a>
-        </li>
-    </ul>
-    {% endif %} {% endblock %}
+{% endblock %} 
+
+ {% block content %}
+
+</div> 
+
+<!--Modal Section-->
+<div id = "simpleModal" class="bg-modal">
+    <div class="modal-content">
+        <div class="closeBtn">+</div>
+        <h2 class="text-center">Add an Event</h2>
+        <form method="POST" class="form-register">
+            {{ form.hidden_tag() }} {{ form.event_title.label }} {{
+            form.event_title(size=32, class="form-control") }}
+            <br />
+            {{ form.start_date.label }} {{ form.start_date(size=32,
+            class="form-control") }} <br />
+            {{ form.end_date.label }} {{ form.end_date(size=32,
+            class="form-control") }}
+            <br />
+            {{ form.url.label }} {{ form.url(size=32, class="form-control") }}
+            <br />
+            {{ form.submit(class="btn btn-lg btn-primary mt-4
+            d-block",id="button") }}
+          </form>
+    </div>
+
 </div>
+
 <div class="container my-3">
     <div id="calendar" style="border: 1px solid silver"></div>
 </div>
+
+<div>
+  <button class="btn btn-lg btn-dark mt-4 d-block" id="button">
+      <a href="#" id = "modalBtn" class="nav-link">Ajouter un entretient</a>
+  </button>
+</div>
+
+
 {% endblock %}
 </div>
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> theirs
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+
+  var meet = {{events | safe}};
+  console.log(meet);
+
+  var config = {
+    initialView: 'dayGridMonth',
+        headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    selectable: true,
+    selectHelper: true,
+    editable: true,
+    eventLimit: true,
+};
+    events: meet.map(ev => ({
+        title: ev.event_title,
+        start: ev.start_date,
+        end : ev.end_date,
+        url: ev.url, 
+      }));
+
+  var calendar = new FullCalendar.Calendar(calendarEl, config)
+    calendar.render();
+});
+</script>
+{% endblock %} 
+
+ {% block content %}
+
+</div> 
+
+<!--Modal Section-->
+<div id = "simpleModal" class="bg-modal">
+    <div class="modal-content">
+        <div class="closeBtn">+</div>
+        <h2 class="text-center">Add an Event</h2>
+        <form method="POST" class="form-register">
+            {{ form.hidden_tag() }} {{ form.event_title.label }} {{
+            form.event_title(size=32, class="form-control") }}
+            <br />
+            {{ form.start_date.label }} {{ form.start_date(size=32,
+            class="form-control") }} <br />
+            {{ form.end_date.label }} {{ form.end_date(size=32,
+            class="form-control") }}
+            <br />
+            {{ form.url.label }} {{ form.url(size=32, class="form-control") }}
+            <br />
+            {{ form.submit(class="btn btn-lg btn-primary mt-4
+            d-block",id="button") }}
+          </form>
+    </div>
+
+</div>
+
+<div class="container my-3">
+    <div id="calendar" style="border: 1px solid silver"></div>
+</div>
+
+<div>
+  <button class="btn btn-lg btn-dark mt-4 d-block" id="button">
+      <a href="#" id = "modalBtn" class="nav-link">Ajouter un entretient</a>
+  </button>
+</div>
+
+
+{% endblock %}
+</div>
+<<<<<<< ours
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> theirs

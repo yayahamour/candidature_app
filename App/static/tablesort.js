@@ -40,4 +40,22 @@ document.querySelectorAll(".table-sortable th").forEach(headerCell => {
 
         sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
     });
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+});
+
+
+document.getElementById('modalBtn').addEventListener('click', function () {
+    document.querySelector('.bg-modal').style.display = 'flex'
+});
+
+document.querySelector('.closeBtn').addEventListener('click', function () {
+    document.querySelector('.bg-modal').style.display = 'none'
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 });
